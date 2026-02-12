@@ -1,4 +1,3 @@
-import React from 'react'
 import { Linkedin, Github, Mail } from 'lucide-react'
 
 const Header = () => {

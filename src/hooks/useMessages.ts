@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface Message {
     id: string;
@@ -9,8 +9,8 @@ interface Message {
 }
 
 export const useMessages = () => {
-    const [messages, setMessages] = useState<Message[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [messages] = useState<Message[]>([]);
+    const [loading] = useState(false);
 
     // Add your Firebase logic here
 

@@ -1,7 +1,4 @@
-import React from 'react';
-import ProjectCard from '../components/ProjectCard';
-
-const Projects: React.FC = () => {
+const Projects = () => {
     return (
         <div className="projects">
             <h1>My Projects</h1>
