@@ -1,124 +1,165 @@
-# Deployment Guide - Vercel
+# Portfolio Deployment Guide
 
-This guide will help you deploy your portfolio app to Vercel.
+## 🚀 Deployment Status
+- **Repository**: https://github.com/5H13LD2/my-portfolio.git
+- **Platform**: Vercel
+- **Framework**: React + Vite + TypeScript
+- **Build Output**: `dist/` folder
 
-## Prerequisites
+## 📋 Prerequisites
+- [x] Git repository connected to GitHub
+- [x] Vercel account
+- [x] Node.js 18+ installed locally
 
-- A Vercel account ([sign up here](https://vercel.com/signup))
-- Git repository (GitHub, GitLab, or Bitbucket)
-- Firebase project with configuration ready
+## 🔗 Connecting Vercel to GitHub
 
-## Quick Deployment Steps
+### Method 1: Vercel Dashboard (Recommended)
+1. Go to [vercel.com](https://vercel.com) and sign in
+2. Click "New Project"
+3. Import from GitHub: `https://github.com/5H13LD2/my-portfolio.git`
+4. Configure project settings:
+   ```json
+   {
+     "Framework Preset": "Vite",
+     "Build Command": "npm run build",
+     "Output Directory": "dist",
+     "Install Command": "npm install",
+     "Root Directory": "./"
+   }
+   ```
+5. Click "Deploy"
 
-### 1. Install Vercel CLI (Optional)
-
+### Method 2: Vercel CLI
 ```bash
-npm install -g vercel
+# In your project directory
+cd C:\Users\sawad\OneDrive\Desktop\my-portfolio
+
+# Link to existing project or create new
+vercel --prod
+
+# Follow prompts:
+# - Link to existing project? [y/N] y
+# - Link to GitHub repo? [y/N] y  
+# - Select: 5H13LD2/my-portfolio
 ```
 
-### 2. Push Your Code to Git
+## ⚙️ Project Configuration
 
-Make sure your code is committed and pushed to your Git repository:
+### Build Settings
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+- **Install Command**: `npm install`
+- **Development Command**: `npm run dev`
 
+### Environment Variables
+If your app uses environment variables, add them in Vercel Dashboard:
 ```bash
-git add .
-git commit -m "Prepare for Vercel deployment"
-git push origin main
+# Example variables (add in Vercel Dashboard -> Settings -> Environment Variables)
+NODE_ENV=production
+VITE_APP_TITLE=Jerico Jimenez Portfolio
 ```
 
-### 3. Deploy via Vercel Dashboard
+### Vercel Configuration (`vercel.json`)
+Current configuration includes:
+- SPA routing support
+- Asset caching headers
+- Security headers
+- Build optimization
 
-1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
-2. Click "Add New" > "Project"
-3. Import your Git repository
-4. Vercel will auto-detect it's a Vite project
-5. Configure your environment variables (see below)
-6. Click "Deploy"
+## 🚀 Deployment Commands
 
-### 4. Configure Environment Variables
-
-In the Vercel dashboard, add these environment variables:
-
-```
-VITE_FIREBASE_API_KEY=your_firebase_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_project.firebasestorage.app
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
-```
-
-**Important:** Never commit your `.env` file to Git. Use the `.env.example` as a reference.
-
-### 5. Deploy via CLI (Alternative)
-
+### Manual Deploy (if needed)
 ```bash
-# Login to Vercel
-vercel login
-
-# Deploy
-vercel
+# Build locally first
+npm run build
 
 # Deploy to production
 vercel --prod
 ```
 
-## Build Configuration
+### Auto Deploy (GitHub Integration)
+- **Main Branch**: Auto-deploys to production
+- **Other Branches**: Auto-deploys to preview URLs
+- **Pull Requests**: Creates preview deployments
 
-The project is configured with:
+## 🔧 Build Process
+1. **Install Dependencies**: `npm install`
+2. **TypeScript Compilation**: `tsc -b`
+3. **Vite Build**: `vite build`
+4. **Output**: Static files in `dist/` folder
+5. **Deploy**: Files served from Vercel CDN
 
-- **Framework**: Vite
-- **Build Command**: `npm run build`
-- **Output Directory**: `dist`
-- **Install Command**: `npm install`
+## 🌐 Domain Setup
+1. Go to Vercel Dashboard → Your Project → Settings → Domains
+2. Add custom domain (optional):
+   - `your-domain.com`
+   - Configure DNS records as instructed
 
-These settings are defined in [vercel.json](vercel.json).
+## 📁 Project Structure
+```
+my-portfolio/
+├── public/              # Static assets
+│   ├── assets/         # Images, screenshots
+│   ├── other/          # Resume, documents
+│   └── favicon.jpg     # Site icon
+├── src/                # Source code
+│   ├── components/     # React components
+│   ├── data/          # Project & certificate data
+│   ├── pages/         # Page components
+│   ├── types/         # TypeScript definitions
+│   └── utils/         # Utility functions
+├── vercel.json        # Vercel configuration
+└── package.json       # Dependencies & scripts
+```
 
-## Post-Deployment
+## 🔍 Troubleshooting
 
-### Update Firebase CORS Settings
+### Build Failures
+- Check build logs in Vercel Dashboard
+- Ensure all dependencies are in `package.json`
+- Verify TypeScript types are correct
 
-If using Firebase, update your CORS settings to allow requests from your Vercel domain:
+### Environment Issues
+- Add environment variables in Vercel Dashboard
+- Prefix client-side vars with `VITE_`
+- Check variable names match your code
 
-1. Go to Firebase Console
-2. Navigate to Authentication > Settings > Authorized domains
-3. Add your Vercel domain (e.g., `your-app.vercel.app`)
+### Routing Issues
+- `vercel.json` includes SPA rewrite rules
+- All routes redirect to `index.html`
+- React Router handles client-side routing
 
-### Custom Domain (Optional)
+## 📊 Performance Optimization
+- ✅ Asset caching headers configured
+- ✅ Code splitting with Vite
+- ✅ Image optimization enabled
+- ✅ Bundle size warnings set to 1000kb
 
-1. Go to your project in Vercel Dashboard
-2. Navigate to Settings > Domains
-3. Add your custom domain
-4. Follow the DNS configuration instructions
+## 🔒 Security Headers
+Current security headers in `vercel.json`:
+- `X-Content-Type-Options: nosniff`
+- `X-Frame-Options: DENY`
+- `X-XSS-Protection: 1; mode=block`
 
-## Troubleshooting
+## 📝 Deployment Checklist
+- [x] Repository connected to GitHub
+- [x] Vercel project configured
+- [x] Build settings verified
+- [x] Environment variables set (if needed)
+- [x] Custom domain configured (optional)
+- [x] SSL certificate active (automatic)
 
-### Build Fails
+## 🚀 Production URLs
+- **Production**: Will be provided after Vercel deployment
+- **GitHub**: https://github.com/5H13LD2/my-portfolio.git
 
-- Check if all dependencies are in `package.json`
-- Verify TypeScript compilation: `npm run build` locally
-- Check build logs in Vercel dashboard
+## 📞 Support
+- **Vercel Docs**: https://vercel.com/docs
+- **Vite Docs**: https://vitejs.dev/guide/
+- **GitHub Issues**: Create issues in your repository
 
-### Environment Variables Not Working
+---
 
-- Ensure all variables start with `VITE_` prefix
-- Redeploy after adding/changing environment variables
-- Check if variables are set in Production environment
-
-### 404 on Page Refresh
-
-- The `vercel.json` configuration handles SPA routing
-- If issues persist, check the rewrite rules in `vercel.json`
-
-## Monitoring
-
-- View deployment logs in Vercel Dashboard
-- Set up analytics in Settings > Analytics
-- Configure custom monitoring if needed
-
-## Resources
-
-- [Vercel Documentation](https://vercel.com/docs)
-- [Vite Deployment Guide](https://vitejs.dev/guide/static-deploy.html)
-- [Firebase Documentation](https://firebase.google.com/docs)
+**Last Updated**: February 2026
+**Version**: 1.0
+**Author**: Jerico Jimenez
