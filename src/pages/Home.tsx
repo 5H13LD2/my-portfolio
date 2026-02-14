@@ -108,8 +108,8 @@ const Home = () => {
       <PDFModal
         isOpen={isPDFModalOpen}
         onClose={closePDFModal}
-        pdfUrl="/other/Jerico Jimenez – Resume.pdf"
-        fileName="Jerico_Jimenez_Resume.pdf"
+        pdfUrl="/other/Jimenez Jerico - Resume.pdf"
+        fileName="Jimenez_Jerico_Resume.pdf"
       />
     </div>
   );

@@ -154,7 +154,7 @@ const Header = () => {
           <div>
             <h1 className="text-5xl font-bold mb-2">Hello! 👋</h1>
             <p className="text-xl text-blue-100">
-              I'm Jerico Jimenez, a Full Stack Developer.
+              I'm Jerico Jimenez, a Software Full Stack Engineer.
             </p>
           </div>
 
@@ -211,32 +211,8 @@ const Header = () => {
             />
           </div>
 
-          {/* Certificates Section */}
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold">Certifications</h2>
-            <div className="space-y-2">
-              <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
-                  {certificates.length} Certificates
-                </span>
-                <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
-                  Oracle Cloud
-                </span>
-                <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium">
-                  IBM Certified
-                </span>
-                <span className="px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium">
-                  Cisco Academy
-                </span>
-              </div>
-              <p className="text-blue-100 text-sm leading-relaxed">
-                Cloud Infrastructure • Data Management • Cybersecurity •
-                Database Technologies
-              </p>
-            </div>
-          </div>
-
-          {/* Summary Section */}
+          {/* Summary
+                Section */}
           <div className="space-y-4">
             <h2 className="text-2xl font-bold">Summary</h2>
             <p className="text-blue-100 leading-relaxed">
@@ -252,8 +228,8 @@ const Header = () => {
       <PDFModal
         isOpen={isPDFModalOpen}
         onClose={closePDFModal}
-        pdfUrl="/other/Jerico Jimenez – Resume.pdf"
-        fileName="Jerico_Jimenez_Resume.pdf"
+        pdfUrl="/other/Jimenez Jerico - Resume.pdf"
+        fileName="Jimenez_Jerico_Resume.pdf"
       />
     </>
   );
