@@ -19,6 +19,28 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
+    },
+    {
+      "source": "/(favicon\\.ico|favicon\\.jpg|apple-touch-icon\\.png|manifest\\.json)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        },
+        {
+          "key": "Content-Type",
+          "value": "image/x-icon"
+        }
+      ]
+    },
+    {
+      "source": "/other/(.*\\.(pdf|jpg|png))",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
     }
   ]
 }
