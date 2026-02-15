@@ -42,6 +42,10 @@ const PDFModal: React.FC<PDFModalProps> = ({
     setHasError(true);
   };
 
+  // Check if we're on mobile or if PDF embedding is likely to fail
+  const isMobile = window.innerWidth <= 768;
+  const shouldShowFallback = isMobile || hasError;
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-2 sm:p-4">
       {/* Modal Container */}
@@ -100,46 +104,58 @@ const PDFModal: React.FC<PDFModalProps> = ({
               </div>
             )}
 
-            {/* Error State */}
-            {hasError && (
+            {/* Loading and Error States */}
+            {shouldShowFallback ? (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
-                <div className="text-center p-6">
+                <div className="text-center p-6 max-w-md">
                   <FileText size={48} className="text-gray-400 mx-auto mb-4" />
                   <h3 className="text-lg font-bold text-gray-800 mb-2">
-                    Unable to load PDF preview
+                    PDF Preview Unavailable
                   </h3>
-                  <p className="text-gray-600 mb-4 text-sm sm:text-base">
-                    The PDF couldn't be displayed in your browser.
+                  <p className="text-gray-600 mb-6 text-sm sm:text-base leading-relaxed">
+                    {isMobile
+                      ? "PDF previews work best on desktop browsers. Use the options below to view the resume."
+                      : "Your browser settings may prevent PDF embedding. Use the options below to view the resume."}
                   </p>
-                  <div className="flex gap-3 justify-center">
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
                     <button
                       onClick={handleDownload}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center gap-2 text-sm sm:text-base"
+                      className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center gap-2 text-sm sm:text-base"
                     >
-                      <Download size={16} />
+                      <Download size={18} />
                       Download PDF
                     </button>
                     <button
                       onClick={handleOpenInNewTab}
-                      className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium flex items-center gap-2 text-sm sm:text-base"
+                      className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium flex items-center justify-center gap-2 text-sm sm:text-base"
                     >
-                      <ExternalLink size={16} />
+                      <ExternalLink size={18} />
                       Open in New Tab
                     </button>
                   </div>
                 </div>
               </div>
+            ) : (
+              <>
+                {/* PDF Object/Embed - Better than iframe for PDFs */}
+                <object
+                  data={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=Fit&zoom=75`}
+                  type="application/pdf"
+                  className="w-full h-full"
+                  style={{ minHeight: "500px" }}
+                  onLoad={handleIframeLoad}
+                  onError={handleIframeError}
+                >
+                  {/* Fallback embed */}
+                  <embed
+                    src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=Fit&zoom=75`}
+                    type="application/pdf"
+                    className="w-full h-full"
+                    style={{ minHeight: "500px" }}
+                  />
+                </object>
+              </>
             )}
-
-            {/* PDF Iframe */}
-            <iframe
-              src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1`}
-              className="w-full h-full border-0"
-              title="Resume Preview"
-              style={{ minHeight: "500px" }}
-              onLoad={handleIframeLoad}
-              onError={handleIframeError}
-            />
           </div>
         </div>
 
