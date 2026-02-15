@@ -31,7 +31,13 @@ export const projects: Project[] = [
       "/assets/app-screenhot/app_screen-2.jpg",
       "/assets/app-screenhot/app_screen-3.jpg",
       "/assets/app-screenhot/app_screen-4.jpg",
+      "/assets/app-screenhot/app_screen-5.jpg",
+      "/assets/app-screenhot/app_screen-6.jpg",
+      "/assets/app-screenhot/app_screen-7.jpg",
+      "/assets/app-screenhot/app_screen-8.jpg",
+      "/assets/app-screenhot/app_screen-9.jpg",
     ],
+    repoUrl: "https://github.com/5H13LD2/capstone-android-app",
   },
   {
     id: "3",

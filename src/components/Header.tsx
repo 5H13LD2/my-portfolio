@@ -29,14 +29,16 @@ const Header = () => {
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-white p-0.5">
               <img
-                src="/profile.jpg"
+                src="./public/other/49f6f706-8105-4799-8f9d-d260a45348a2.jpg"
                 alt="Jerico Jimenez"
                 className="w-full h-full rounded-full object-cover"
               />
             </div>
             <div>
               <h1 className="text-lg font-bold">Jerico Jimenez</h1>
-              <p className="text-xs text-blue-100">Full Stack Developer</p>
+              <p className="text-xs text-blue-100">
+                Software Full-Stack Engineer
+              </p>
             </div>
           </div>
           <button
