@@ -29,7 +29,7 @@ const Header = () => {
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-white p-0.5">
               <img
-                src="./public/other/49f6f706-8105-4799-8f9d-d260a45348a2.jpg"
+                src="/profile.jpg"
                 alt="Jerico Jimenez"
                 className="w-full h-full rounded-full object-cover"
               />
