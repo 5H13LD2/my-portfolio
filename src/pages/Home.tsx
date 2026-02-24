@@ -74,29 +74,135 @@ const Home = () => {
         <CertificatesSection />
 
         {/* Skills Section */}
-        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 space-y-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
             Technical Skills
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 lg:gap-4">
-            {[
-              "JavaScript",
-              "TypeScript",
-              "React",
-              "Node.js",
-              "Laravel",
-              "MySQL",
-              "MongoDB",
-              "Git",
-              "Tailwind CSS",
-            ].map((skill) => (
-              <div
-                key={skill}
-                className="px-3 py-2 sm:px-4 sm:py-3 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg text-center font-medium text-gray-700 text-sm sm:text-base"
-              >
-                {skill}
-              </div>
-            ))}
+
+          {/* Frontend */}
+          <div>
+            <h3 className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-3">
+              Frontend
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {[
+                "React",
+                "TypeScript",
+                "JavaScript",
+                "Tailwind CSS",
+                "Bootstrap",
+                "XML (Android UI)",
+                "Blade (Laravel)",
+                "Livewire",
+              ].map((skill) => (
+                <span
+                  key={skill}
+                  className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Backend */}
+          <div>
+            <h3 className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-3">
+              Backend
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {[
+                "Laravel 12",
+                "Node.js",
+                "PHP",
+                "Kotlin (Android)",
+                "Firebase",
+              ].map((skill) => (
+                <span
+                  key={skill}
+                  className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Databases */}
+          <div>
+            <h3 className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-3">
+              Databases
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {[
+                "MySQL",
+                "PostgreSQL",
+                "MongoDB",
+                "Firebase Firestore",
+                "IBM Cloud DB",
+              ].map((skill) => (
+                <span
+                  key={skill}
+                  className="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Data & Analytics */}
+          <div>
+            <h3 className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-3">
+              Data & Analytics
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {[
+                "Python",
+                "Pandas",
+                "Power BI",
+                "Jaspersoft",
+                "Pentaho (Kettle)",
+                "SQL Scripting",
+                "ETL Pipelines",
+                "Data Cleaning",
+                "Data Visualization",
+                "Google Sheets / Excel",
+                "WinMerge",
+              ].map((skill) => (
+                <span
+                  key={skill}
+                  className="px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-medium"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Tools & DevOps */}
+          <div>
+            <h3 className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-3">
+              Tools & DevOps
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {[
+                "Git",
+                "GitHub",
+                "Vite",
+                "Android Studio",
+                "Chaquopy",
+                "IBM Cloud",
+                "Postman",
+              ].map((skill) => (
+                <span
+                  key={skill}
+                  className="px-2 py-1 bg-gray-200 text-gray-700 rounded-full text-xs font-medium"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
