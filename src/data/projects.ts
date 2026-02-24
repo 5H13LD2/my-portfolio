@@ -53,6 +53,49 @@ export const projects: Project[] = [
   },
   {
     id: "4",
+    title: "Enterprise Inventory Data Integration and Management",
+    description:
+      "Implemented an end-to-end enterprise-level data integration workflow to manage inventory across multiple branches. Performed ETL operations on multiple sources (Excel, Access DB) using Pentaho, including data cleaning, type validation, and date validation against Date_Dim. Loaded validated records into the Inventory_Fact table of a PostgreSQL data warehouse. Additionally, managed real-time inventory tracking for SM Supermarket branches using MongoDB, handling nested product arrays and stock updates per store. Built reports and dashboards using Jaspersoft for inventory monitoring and analytics.",
+    tech: [
+      "PostgreSQL",
+      "SQL",
+      "Pentaho Data Integration (Kettle)",
+      "Jaspersoft",
+      "IBM Cloud",
+      "MongoDB",
+    ],
+    images: [
+      "/assets/sqlmaster_screenshot/DATA_WAREHOUSE.png",
+      "/assets/sqlmaster_screenshot/pentaho_db_ETL.png",
+      "/assets/sqlmaster_screenshot/STORED_PROCEDURE.png",
+      "/assets/sqlmaster_screenshot/SQL_SCRIPTING.png",
+      "/assets/sqlmaster_screenshot/SQL_JOINS.png",
+      "/assets/sqlmaster_screenshot/1NF.png",
+      "/assets/sqlmaster_screenshot/MONGOSH_ATLAS.png",
+      "/assets/sqlmaster_screenshot/REPORT_JASPERSOFTG.png",
+    ],
+  },
+  {
+    id: "5",
+    title: "Data Analytics & Insights Project",
+    description:
+      "Performed end-to-end data analytics by cleaning and transforming datasets using Python (Pandas), generating actionable insights and visualizations in Power BI, and comparing dataset versions using WinMerge. Leveraged spreadsheets for data storage and organization, ensuring accurate and consistent reporting for decision-making.",
+    tech: [
+      "Python",
+      "Pandas",
+      "Power BI",
+      "Google Sheets / Excel",
+      "WinMerge",
+      "Data Cleaning",
+      "Data Visualization",
+    ],
+    images: [
+      "/assets/data-analyst/Screenshot 2026-02-24 122147.png",
+      "/assets/data-analyst/Screenshot 2026-02-24 122404.png",
+    ],
+  },
+  {
+    id: "6",
     title: "Portfolio Website",
     description:
       "Personal portfolio built with React and Tailwind CSS to showcase my projects and skills.",
