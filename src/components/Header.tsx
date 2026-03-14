@@ -37,7 +37,7 @@ const Header = () => {
             <div>
               <h1 className="text-lg font-bold">Jerico Jimenez</h1>
               <p className="text-xs text-blue-100">
-                Software Full-Stack Engineer
+                Aspiring Data Engineer
               </p>
             </div>
           </div>
@@ -156,7 +156,7 @@ const Header = () => {
           <div>
             <h1 className="text-5xl font-bold mb-2">Hello! 👋</h1>
             <p className="text-xl text-blue-100">
-              I'm Jerico Jimenez, a Software Full Stack Engineer.
+              I'm Jerico Jimenez, a Data Engineer.
             </p>
           </div>
 
@@ -218,9 +218,11 @@ const Header = () => {
           <div className="space-y-4">
             <h2 className="text-2xl font-bold">Summary</h2>
             <p className="text-blue-100 leading-relaxed">
-              Motivated Full Stack Developer with almost 1 year of experience in
-              designing, developing, and building web systems. Proficient in
-              both front and backend technologies.
+              Data Engineer with a strong foundation in Full Stack Development.
+              Experienced in building automated end-to-end pipelines, managing
+              200k+ record datasets, and architecting cloud-native solutions
+              using the AWS-Airflow-Snowflake stack. I bridge the gap between
+              robust backend systems and high-performance data analytics.
             </p>
           </div>
         </div>
@@ -230,7 +232,7 @@ const Header = () => {
       <PDFModal
         isOpen={isPDFModalOpen}
         onClose={closePDFModal}
-        pdfUrl="/other/Jimenez Jerico - Resume.pdf"
+        pdfUrl="/other/Jimenez_Jerico_Resume.pdf"
         fileName="Jimenez_Jerico_Resume.pdf"
       />
     </>

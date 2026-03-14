@@ -21,6 +21,31 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: "7",
+    title: "Enterprise Retail Data Pipeline (S3 to Snowflake)",
+    description:
+      "Engineered a scalable, automated ELT pipeline to process 200,000+ retail transaction records. Orchestrated a containerized architecture using Docker Compose and Apache Airflow for robust DAG management. Implemented a cloud-native workflow by ingesting raw CSV data via Boto3 to Amazon S3, followed by optimized SQL transformations directly in Snowflake. Designed with a Medallion Architecture (Bronze to Gold) while optimizing for resource-constrained cloud environments by leveraging Snowflake’s elastic compute over heavy local transformation tools.",
+    tech: [
+      "Apache Airflow",
+      "Snowflake",
+      "Amazon S3",
+      "Docker Compose",
+      "Python (Boto3)",
+      "SQL (Analytical & DDL)",
+      "AWS EC2",
+    ],
+    images: [
+      "/assets/data-pipeline-screenshot/photo_2026-03-11_19-04-44.jpg",
+      "/assets/data-pipeline-screenshot/photo_2026-03-11_19-05-12.jpg",
+      "/assets/data-pipeline-screenshot/photo_2026-03-11_19-09-14.jpg",
+      "/assets/data-pipeline-screenshot/photo_2026-03-11_19-22-35.jpg",
+      "/assets/data-pipeline-screenshot/photo_2026-03-11_19-24-14.jpg",
+      "/assets/data-pipeline-screenshot/Screenshot from 2026-03-11 20-34-06.png",
+
+    ], // Dito mo ilalagay yung Airflow DAG at Snowflake 200k rows screenshots mo
+    airflowUrl: "http://16.176.165.140:8080/home",
+  },
+  {
     id: "2",
     title: "Enterprise Inventory Data Integration and Management",
     description:

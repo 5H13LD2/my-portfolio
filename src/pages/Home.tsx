@@ -41,7 +41,7 @@ const Home = () => {
                   PDF
                 </span>
                 <span className="px-2 py-1 sm:px-3 sm:py-1 bg-blue-100 text-blue-700 rounded-full text-xs sm:text-sm font-medium">
-                  Updated 2025
+                  Updated 2026
                 </span>
               </div>
             </div>
@@ -214,7 +214,7 @@ const Home = () => {
       <PDFModal
         isOpen={isPDFModalOpen}
         onClose={closePDFModal}
-        pdfUrl="/other/Jimenez Jerico - Resume.pdf"
+        pdfUrl="/other/Jimenez_Jerico_Resume.pdf"
         fileName="Jimenez_Jerico_Resume.pdf"
       />
     </div>

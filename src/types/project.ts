@@ -6,4 +6,5 @@ export type Project = {
     images: string[]
     liveUrl?: string
     repoUrl?: string
+    airflowUrl?: string
 }

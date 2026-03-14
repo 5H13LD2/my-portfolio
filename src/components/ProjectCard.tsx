@@ -98,6 +98,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                   View Code
                 </a>
               )}
+
+              {project.airflowUrl && (
+                <a
+                  href={project.airflowUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 sm:px-6 sm:py-2 bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition-colors font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
+                >
+                  <ExternalLink size={16} />
+                  View Airflow UI
+                </a>
+              )}
             </div>
           </div>
         </div>
