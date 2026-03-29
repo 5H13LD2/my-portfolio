@@ -22,6 +22,7 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
+                sh 'rm -rf node_modules'
                 sh "npm ci --cache ${NPM_CACHE} --prefer-offline"
             }
         }
@@ -52,9 +53,9 @@ pipeline {
                             sudo chown ${DEPLOY_USER}:${DEPLOY_USER} ${DEPLOY_PATH}
                         else
                             # Backup existing directory before deploying
-                            BACKUP_DIR="${DEPLOY_PATH}_backup_\\$(date +%Y%m%d_%H%M%S)"
-                            sudo cp -r ${DEPLOY_PATH} \\$BACKUP_DIR
-                            echo "Backup created at \\$BACKUP_DIR"
+                            BACKUP_DIR="${DEPLOY_PATH}_backup_\$(date +%Y%m%d_%H%M%S)"
+                            sudo cp -r ${DEPLOY_PATH} \$BACKUP_DIR
+                            echo "Backup created at \$BACKUP_DIR"
                         fi
                     '
                     

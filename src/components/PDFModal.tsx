@@ -131,12 +131,12 @@ const PDFModal: React.FC<PDFModalProps> = ({
               </div>
             )}
 
-            {/* PDF Iframe with zoom adjustment */}
+            {/* PDF Iframe */}
             <iframe
-              src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=Fit&zoom=75`}
+              src={`${pdfUrl}#view=FitH&toolbar=0`}
               className="w-full h-full border-0"
               title="Resume Preview"
-              style={{ minHeight: "500px" }}
+              style={{ minHeight: "75vh" }}
               onLoad={handleIframeLoad}
               onError={handleIframeError}
             />
