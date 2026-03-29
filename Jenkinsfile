@@ -1,11 +1,9 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'NodeJS-20' // Ensure this matches your Jenkins NodeJS installation
-    }
-
     environment {
+        NODE_HOME = tool name: 'NodeJS-20', type: 'NodeJS'
+        PATH = "${env.NODE_HOME}/bin:${env.PATH}"
         DEPLOY_USER = 'ubuntu'
         DEPLOY_HOST = '3.106.53.241'
         DEPLOY_PATH = '/var/www/portfolio'
