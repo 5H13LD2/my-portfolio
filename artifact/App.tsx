@@ -102,13 +102,11 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
   );
 }
 
-function ScrollHint({ label = "" }: { label?: string }) {
+function ScrollHint({ label = "scroll down" }: { label?: string }) {
   return (
-    <div className="flex flex-col items-center gap-1.5 mt-8 opacity-60">
-      <div className="w-5 h-8 border-[1.5px] border-[#444] rounded-full flex justify-center p-1">
-        <div className="w-[3px] h-[5px] bg-[#888] rounded-full animate-scroller" />
-      </div>
-      {label && <span className="text-[10px] text-[#666] uppercase tracking-wider">{label}</span>}
+    <div className="flex flex-col items-center gap-1.5 mt-8 opacity-30">
+      <span className="text-[11px] text-[#666]">{label}</span>
+      <div className="w-4 h-4 border-r border-b border-[#666] rotate-45 animate-bounce" />
     </div>
   );
 }
@@ -164,12 +162,7 @@ export default function App() {
   };
 
   return (
-    <div className="bg-[#0a0a0a] text-[#e5e5e5] min-h-screen font-sans relative">
-      {/* BACKGROUND LINES */}
-      <div className="fixed top-0 bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] pointer-events-none z-0 flex justify-between">
-        <div className="low-visible-line-v" />
-        <div className="low-visible-line-v" />
-      </div>
+    <div className="bg-[#0a0a0a] text-[#e5e5e5] min-h-screen font-sans">
       {/* NAV */}
       <nav className={`fixed top-0 left-0 right-0 h-14 flex items-center justify-between px-10 border-b border-[#1e1e1e] bg-[#0a0a0a]/95 backdrop-blur-md z-50 transition-shadow ${scrolled ? "shadow-[0_1px_20px_rgba(0,0,0,0.5)]" : ""}`}>
         <button onClick={() => scrollToSection("home")} className="flex items-center gap-2">
@@ -204,7 +197,7 @@ export default function App() {
 
         {/* HOME */}
         <div id="home" ref={(el) => { sectionRefs.current["home"] = el; }}
-          className="opacity-0 translate-y-5 transition-all duration-700 min-h-[calc(100vh-56px)] flex flex-col justify-center relative z-10"
+          className="opacity-0 translate-y-5 transition-all duration-500 min-h-[calc(100vh-56px)] flex flex-col justify-center"
           style={{ scrollSnapAlign: "start" }}>
           <div className="max-w-[900px] mx-auto px-10 py-16 w-full">
             <div className="grid grid-cols-[1fr_190px] gap-12 items-center">
@@ -269,32 +262,22 @@ export default function App() {
 
         {/* FEATURED PROJECTS */}
         <div id="featured" ref={(el) => { sectionRefs.current["featured"] = el; }}
-          className="opacity-0 translate-y-5 transition-all duration-700 min-h-[calc(100vh-56px)] flex flex-col justify-center relative z-10"
+          className="opacity-0 translate-y-5 transition-all duration-500 min-h-[calc(100vh-56px)] flex flex-col justify-center"
           style={{ scrollSnapAlign: "start" }}>
-          <div className="low-visible-line-h absolute top-0" />
           <div className="max-w-[900px] mx-auto px-10 py-16 w-full">
-            <div className="flex items-start justify-between mb-8">
-              <div className="flex items-center gap-3">
-                <div className="flex flex-col items-center mt-1">
-                  <div className="text-[10px] font-bold tracking-widest text-[#f5f5f5] mb-1">PORTFOLIO</div>
-                  <div className="w-3 h-5 border-[1.5px] border-[#f5f5f5] rounded-full flex justify-center p-[2px]">
-                    <div className="w-[2px] h-[3px] bg-[#f5f5f5] rounded-full animate-scroller" />
-                  </div>
-                </div>
-                <div>
-                  <h2 className="text-[28px] font-medium text-[#f0f0f0] leading-tight mt-1">Featured Projects</h2>
-                </div>
+            <div className="flex items-start justify-between mb-7">
+              <div>
+                <h2 className="text-[28px] font-medium text-[#f0f0f0]">Featured Projects</h2>
+                <p className="text-[13px] text-[#666] mt-1">A selection of my best work</p>
               </div>
               <button onClick={() => scrollToSection("allprojects")}
-                className="flex items-center gap-1.5 px-4 py-1.5 border border-[#2a2a2a] rounded-lg text-xs text-[#666] hover:border-[#444] hover:text-[#e5e5e5] transition-all mt-1">
+                className="flex items-center gap-1.5 px-4 py-1.5 border border-[#2a2a2a] rounded-lg text-xs text-[#666] hover:border-[#444] hover:text-[#e5e5e5] transition-all">
                 View all <ChevronRight size={12} />
               </button>
             </div>
             <div className="grid grid-cols-2 gap-3.5">
-              {projects.filter((p) => p.featured).map((p, index) => (
-                <div key={p.id} className={index === 0 ? "col-span-2" : ""}>
-                  <ProjectCard project={p} />
-                </div>
+              {projects.filter((p) => p.featured).map((p) => (
+                <ProjectCard key={p.id} project={p} />
               ))}
             </div>
             <div className="mt-5 px-5 py-4 border border-dashed border-[#1e2a3a] rounded-xl flex items-center justify-between bg-[rgba(13,20,32,0.4)]">
@@ -306,14 +289,14 @@ export default function App() {
                 See all projects <ChevronRight size={12} />
               </button>
             </div>
+            <ScrollHint label="keep scrolling" />
           </div>
         </div>
 
         {/* ALL PROJECTS */}
         <div id="allprojects" ref={(el) => { sectionRefs.current["allprojects"] = el; }}
-          className="opacity-0 translate-y-5 transition-all duration-700 min-h-[calc(100vh-56px)] flex flex-col justify-center relative z-10"
+          className="opacity-0 translate-y-5 transition-all duration-500 min-h-[calc(100vh-56px)] flex flex-col justify-center"
           style={{ scrollSnapAlign: "start" }}>
-          <div className="low-visible-line-h absolute top-0" />
           <div className="max-w-[900px] mx-auto px-10 py-16 w-full">
             <div className="flex items-start justify-between mb-7">
               <div>
@@ -336,9 +319,8 @@ export default function App() {
 
         {/* ABOUT */}
         <div id="about" ref={(el) => { sectionRefs.current["about"] = el; }}
-          className="opacity-0 translate-y-5 transition-all duration-700 min-h-[calc(100vh-56px)] flex flex-col justify-center relative z-10"
+          className="opacity-0 translate-y-5 transition-all duration-500 min-h-[calc(100vh-56px)] flex flex-col justify-center"
           style={{ scrollSnapAlign: "start" }}>
-          <div className="low-visible-line-h absolute top-0" />
           <div className="max-w-[900px] mx-auto px-10 py-16 w-full">
             <h2 className="text-[28px] font-medium text-[#f0f0f0] mb-1">About</h2>
             <p className="text-[13px] text-[#666] mb-7">Background, skills, and certifications.</p>
@@ -387,9 +369,8 @@ export default function App() {
 
         {/* FEEDBACK */}
         <div id="feedback" ref={(el) => { sectionRefs.current["feedback"] = el; }}
-          className="opacity-0 translate-y-5 transition-all duration-700 min-h-[calc(100vh-56px)] flex flex-col justify-center relative z-10"
+          className="opacity-0 translate-y-5 transition-all duration-500 min-h-[calc(100vh-56px)] flex flex-col justify-center"
           style={{ scrollSnapAlign: "start" }}>
-          <div className="low-visible-line-h absolute top-0" />
           <div className="max-w-[900px] mx-auto px-10 py-16 w-full">
             <h2 className="text-[28px] font-medium text-[#f0f0f0] mb-1">Feedback</h2>
             <p className="text-[13px] text-[#666] mb-7">Have a thought, suggestion, or just want to say hi?</p>
@@ -429,9 +410,8 @@ export default function App() {
 
         {/* CONTACT */}
         <div id="contact" ref={(el) => { sectionRefs.current["contact"] = el; }}
-          className="opacity-0 translate-y-5 transition-all duration-700 min-h-[calc(100vh-56px)] flex flex-col justify-center relative z-10"
+          className="opacity-0 translate-y-5 transition-all duration-500 min-h-[calc(100vh-56px)] flex flex-col justify-center"
           style={{ scrollSnapAlign: "start" }}>
-          <div className="low-visible-line-h absolute top-0" />
           <div className="max-w-[900px] mx-auto px-10 py-16 w-full">
             <h2 className="text-[28px] font-medium text-[#f0f0f0] mb-1">Contact</h2>
             <p className="text-[13px] text-[#666] mb-6">Let's work together or just have a chat.</p>

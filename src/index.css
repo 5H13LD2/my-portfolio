@@ -243,3 +243,39 @@
         transition-duration: 0.01ms !important;
     }
 }
+
+/* --- Padilla Style Refinements --- */
+
+/* Subtle Lines */
+.low-visible-line-h {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05) 15%, rgba(255,255,255,0.05) 85%, transparent);
+}
+
+.low-visible-line-v {
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, rgba(255,255,255,0.03) 15%, rgba(255,255,255,0.03) 85%, transparent);
+}
+
+/* Scroll Indicators & Revealing */
+@keyframes scroller {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(6px); opacity: 0; }
+}
+
+.animate-scroller {
+    animation: scroller 1.5s infinite ease-out;
+}
+
+.reveal-element {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal-element.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
