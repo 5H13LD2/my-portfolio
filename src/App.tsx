@@ -1,9 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { Linkedin, Github, Mail, ChevronDown, ChevronRight, Star } from "lucide-react";
+import { Linkedin, Github, Mail, ChevronRight, Star } from "lucide-react";
 import ResumeButton from "./components/ResumeButton";
 import PDFModal from "./components/PDFModal";
 import CertificatesSection from "./components/CertificatesSection";
-import { certificates } from "./data/certificates";
+import { projects } from "./data/projects";
+import type { Project } from "./types/project";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { useLenis, getLenis } from "./hooks/useLenis";
+
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const SECTIONS = ["home", "featured", "allprojects", "about", "feedback", "contact"] as const;
 type SectionId = typeof SECTIONS[number];
@@ -14,89 +21,57 @@ const NAV_SECTION_MAP: Record<SectionId, number> = {
 
 const NAV_LABELS = ["Home", "Projects", "About", "Feedback", "Contact"];
 
-const projects = [
-  {
-    id: 1,
-    title: "AWS-Airflow-Snowflake ETL Pipeline",
-    description: "Automated end-to-end data pipeline managing 200k+ record datasets. Full orchestration with Apache Airflow on AWS, loading into Snowflake with monitoring and alerting.",
-    tags: ["Python", "Airflow", "Snowflake", "AWS"],
-    featured: true,
-    repoUrl: "https://github.com/5H13LD2",
-    liveUrl: "",
-    airflowUrl: "",
-  },
-  {
-    id: 2,
-    title: "Portfolio Website",
-    description: "Personal portfolio built with React, TypeScript, and Tailwind CSS. Features project showcases, certifications display, PDF resume viewer, and responsive design.",
-    tags: ["React", "TypeScript", "Tailwind", "Vite"],
-    featured: true,
-    repoUrl: "https://github.com/5H13LD2",
-    liveUrl: "https://jimenezjerico.vercel.app/",
-    airflowUrl: "",
-  },
-  {
-    id: 3,
-    title: "Cloud-Native Analytics Dashboard",
-    description: "Real-time analytics dashboard on AWS infrastructure with data visualization, automated refresh pipelines, and reporting modules.",
-    tags: ["AWS", "React", "Node.js", "PostgreSQL"],
-    featured: false,
-    repoUrl: "https://github.com/5H13LD2",
-    liveUrl: "",
-    airflowUrl: "",
-  },
-  {
-    id: 4,
-    title: "Full Stack Web System",
-    description: "Production-grade system with JWT auth, role-based access control, RESTful API backend, and responsive frontend built for real-world deployment.",
-    tags: ["Node.js", "PostgreSQL", "React", "Docker"],
-    featured: false,
-    repoUrl: "https://github.com/5H13LD2",
-    liveUrl: "",
-    airflowUrl: "",
-  },
-];
-
 const STACK = ["Python", "Apache Airflow", "Snowflake", "AWS", "React", "TypeScript", "Node.js", "PostgreSQL", "Docker", "Git", "Tailwind CSS", "Oracle Cloud"];
 
-function ProjectCard({ project }: { project: typeof projects[0] }) {
+function ProjectCard({ project }: { project: Project }) {
   return (
-    <div className={`rounded-xl p-5 border transition-all duration-200 hover:-translate-y-0.5 ${
+    <div className={`project-card rounded-xl overflow-hidden border transition-all duration-200 hover:-translate-y-0.5 ${
       project.featured
         ? "bg-[#0d1420] border-[#1a2a40]"
         : "bg-[#111111] border-[#1e1e1e]"
     }`}>
-      {project.featured && (
-        <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#1a2a40] text-[#4d7cc7] text-[10px] font-medium mb-3">
-          <Star size={10} fill="currentColor" /> Featured
+      {project.images && project.images.length > 0 && (
+        <div className="aspect-video w-full overflow-hidden border-b border-[#1e1e1e] bg-[#000]">
+          <img 
+            src={project.images[0]} 
+            alt={project.title} 
+            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          />
         </div>
       )}
-      <h3 className="text-sm font-medium text-[#e0e0e0] mb-2">{project.title}</h3>
-      <p className="text-xs text-[#666] leading-relaxed mb-3">{project.description}</p>
-      <div className="flex flex-wrap gap-1.5 mb-3">
-        {project.tags.map((t) => (
-          <span key={t} className="px-2 py-0.5 rounded bg-[#0d1828] border border-[#1a2a40] text-[#4d7cc7] text-[11px]">{t}</span>
-        ))}
-      </div>
-      <div className="flex gap-2">
-        {project.repoUrl && (
-          <a href={project.repoUrl} target="_blank" rel="noopener noreferrer"
-            className="px-3 py-1 rounded-md border border-[#2a2a2a] text-[#888] text-[11px] hover:border-[#444] hover:text-[#e5e5e5] transition-colors">
-            View Code →
-          </a>
+      <div className="p-5">
+        {project.featured && (
+          <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#1a2a40] text-[#4d7cc7] text-[10px] font-medium mb-3">
+            <Star size={10} fill="currentColor" /> Featured
+          </div>
         )}
-        {project.liveUrl && (
-          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
-            className="px-3 py-1 rounded-md border border-[#2a2a2a] text-[#888] text-[11px] hover:border-[#444] hover:text-[#e5e5e5] transition-colors">
-            Live →
-          </a>
-        )}
-        {project.airflowUrl && (
-          <a href={project.airflowUrl} target="_blank" rel="noopener noreferrer"
-            className="px-3 py-1 rounded-md border border-[#1a2a40] text-[#4d7cc7] text-[11px] hover:bg-[#1a2a40] transition-colors">
-            Airflow UI →
-          </a>
-        )}
+        <h3 className="text-sm font-medium text-[#e0e0e0] mb-2">{project.title}</h3>
+        <p className="text-xs text-[#666] leading-relaxed mb-3 line-clamp-2">{project.description}</p>
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {project.tech.map((t) => (
+            <span key={t} className="px-2 py-0.5 rounded bg-[#0d1828] border border-[#1a2a40] text-[#4d7cc7] text-[11px]">{t}</span>
+          ))}
+        </div>
+        <div className="flex gap-2">
+          {project.repoUrl && (
+            <a href={project.repoUrl} target="_blank" rel="noopener noreferrer"
+              className="px-3 py-1 rounded-md border border-[#2a2a2a] text-[#888] text-[11px] hover:border-[#444] hover:text-[#e5e5e5] transition-colors">
+              View Code →
+            </a>
+          )}
+          {project.liveUrl && (
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
+              className="px-3 py-1 rounded-md border border-[#2a2a2a] text-[#888] text-[11px] hover:border-[#444] hover:text-[#e5e5e5] transition-colors">
+              Live →
+            </a>
+          )}
+          {project.airflowUrl && (
+            <a href={project.airflowUrl} target="_blank" rel="noopener noreferrer"
+              className="px-3 py-1 rounded-md border border-[#1a2a40] text-[#4d7cc7] text-[11px] hover:bg-[#1a2a40] transition-colors">
+              Airflow UI →
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -119,38 +94,106 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [feedbackForm, setFeedbackForm] = useState({ name: "", email: "", message: "" });
   const [feedbackSent, setFeedbackSent] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
+  // Initialize Lenis smooth scroll
+  useLenis();
+
   const scrollToSection = (id: SectionId) => {
-    sectionRefs.current[id]?.scrollIntoView({ behavior: "smooth" });
+    const el = sectionRefs.current[id];
+    if (el) {
+      const lenis = getLenis();
+      if (lenis) {
+        lenis.scrollTo(el, { offset: -56 });
+      } else {
+        gsap.to(window, {
+          duration: 0.8,
+          scrollTo: { y: el, offsetY: 56 },
+          ease: "power2.out",
+        });
+      }
+    }
   };
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    // Nav shadow on scroll
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("opacity-100", "translate-y-0");
-            entry.target.classList.remove("opacity-0", "translate-y-5");
-            setActiveSection(entry.target.id as SectionId);
-          }
-        });
-      },
-      { root: container, threshold: 0.4 }
-    );
+    // GSAP ScrollTrigger for each section
+    const triggers: ScrollTrigger[] = [];
 
-    Object.values(sectionRefs.current).forEach((el) => el && observer.observe(el));
+    SECTIONS.forEach((id) => {
+      const el = sectionRefs.current[id];
+      if (!el) return;
 
-    const handleScroll = () => setScrolled(container.scrollTop > 10);
-    container.addEventListener("scroll", handleScroll);
+      // Section reveal animation
+      gsap.set(el, { opacity: 0, y: 60 });
+      const anim = gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+          end: "top 20%",
+          toggleActions: "play none none none",
+        },
+      });
+      if (anim.scrollTrigger) triggers.push(anim.scrollTrigger);
+
+      // Active section tracking
+      const st = ScrollTrigger.create({
+        trigger: el,
+        start: "top 50%",
+        end: "bottom 50%",
+        onEnter: () => setActiveSection(id),
+        onEnterBack: () => setActiveSection(id),
+      });
+      triggers.push(st);
+    });
+
+    // Stagger project cards
+    const cards = document.querySelectorAll(".project-card");
+    if (cards.length) {
+      gsap.set(cards, { opacity: 0, y: 40 });
+      gsap.to(cards, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.12,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: cards[0],
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      });
+    }
+
+    // Stagger tech stack pills
+    const pills = document.querySelectorAll(".tech-pill");
+    if (pills.length) {
+      gsap.set(pills, { opacity: 0, scale: 0.8 });
+      gsap.to(pills, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.4,
+        stagger: 0.05,
+        ease: "back.out(1.5)",
+        scrollTrigger: {
+          trigger: pills[0],
+          start: "top 90%",
+          toggleActions: "play none none none",
+        },
+      });
+    }
 
     return () => {
-      observer.disconnect();
-      container.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", handleScroll);
+      triggers.forEach((st) => st.kill());
+      ScrollTrigger.getAll().forEach((st) => st.kill());
     };
   }, []);
 
@@ -187,7 +230,7 @@ export default function App() {
             );
           })}
         </div>
-        <ResumeButton onClick={() => setIsPDFModalOpen(true)} variant="secondary" size="sm" />
+        <ResumeButton onClick={() => setIsPDFModalOpen(true)} />
       </nav>
 
       {/* SCROLL DOTS */}
@@ -200,7 +243,7 @@ export default function App() {
       </div>
 
       {/* SCROLL CONTAINER */}
-      <div ref={containerRef} className="h-screen overflow-y-scroll" style={{ scrollSnapType: "y mandatory", marginTop: "56px", height: "calc(100vh - 56px)" }}>
+      <div className="pt-14">
 
         {/* HOME */}
         <div id="home" ref={(el) => { sectionRefs.current["home"] = el; }}
@@ -259,7 +302,7 @@ export default function App() {
               <p className="text-[11px] font-medium text-[#444] uppercase tracking-widest mb-3">Tech stack</p>
               <div className="flex flex-wrap gap-2">
                 {STACK.map((s) => (
-                  <span key={s} className="px-3 py-1 rounded-md border border-[#1e1e1e] bg-[#111] text-[#999] text-xs">{s}</span>
+                  <span key={s} className="tech-pill px-3 py-1 rounded-md border border-[#1e1e1e] bg-[#111] text-[#999] text-xs">{s}</span>
                 ))}
               </div>
             </div>

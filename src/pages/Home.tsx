@@ -49,8 +49,7 @@ const Home = () => {
             <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 pt-2">
               <ResumeButton
                 onClick={openPDFModal}
-                variant="primary"
-                size="md"
+
                 className="w-full sm:w-auto"
               />
             </div>

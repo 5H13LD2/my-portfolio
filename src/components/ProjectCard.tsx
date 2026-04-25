@@ -8,10 +8,11 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
-  const [showScreenshots, setShowScreenshots] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
     null,
   );
+
+  const previewImage = project.images[0];
 
   const handleImageClick = (index: number) => {
     setSelectedImageIndex(index);
@@ -50,6 +51,30 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             {project.description}
           </p>
 
+          {/* Screenshot Preview */}
+          {previewImage && (
+            <div
+              className="relative rounded-xl overflow-hidden border border-gray-200 bg-gray-100 mt-4 cursor-pointer"
+              onClick={() => handleImageClick(0)}
+            >
+              <img
+                src={previewImage}
+                alt={`${project.title} preview screenshot`}
+                className="w-full h-56 sm:h-64 object-cover"
+              />
+              {project.images.length > 1 && (
+                <div className="absolute bottom-3 right-3 bg-black bg-opacity-60 text-white text-xs sm:text-sm px-2 py-1 rounded-full">
+                  {project.images.length} screenshots
+                </div>
+              )}
+              <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-opacity flex items-center justify-center opacity-0 hover:opacity-100">
+                <div className="bg-white/90 text-gray-900 rounded-full px-3 py-2 text-xs sm:text-sm font-semibold">
+                  View all screenshots
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Tech Stack */}
           <div className="space-y-2">
             <span className="text-sm font-semibold text-gray-700">Stack:</span>
@@ -68,10 +93,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 pt-2">
             <button
-              onClick={() => setShowScreenshots(!showScreenshots)}
-              className="px-4 py-2 sm:px-6 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm sm:text-base w-full sm:w-auto"
+              onClick={() => handleImageClick(0)}
+              className="px-4 py-2 sm:px-6 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm sm:text-base w-full sm:w-auto flex items-center justify-center gap-2"
             >
-              {showScreenshots ? "Hide Screenshots" : "View Screenshots"}
+              <ZoomIn size={16} />
+              View Screenshots{project.images.length > 1 ? ` (${project.images.length})` : ""}
             </button>
 
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
@@ -114,38 +140,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           </div>
         </div>
 
-        {/* Screenshots Section */}
-        {showScreenshots && (
-          <div className="border-t border-gray-200 p-4 sm:p-6 bg-gray-50">
-            <h4 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">
-              Screenshots
-            </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-              {project.images.map((image, index) => (
-                <div
-                  key={index}
-                  className="relative group rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all cursor-pointer"
-                  onClick={() => handleImageClick(index)}
-                >
-                  <img
-                    src={image}
-                    alt={`${project.title} screenshot ${index + 1}`}
-                    className="w-full h-auto object-contain bg-gray-100"
-                  />
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all flex items-center justify-center">
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                      <ZoomIn
-                        size={32}
-                        className="text-white sm:w-12 sm:h-12"
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Image Modal */}

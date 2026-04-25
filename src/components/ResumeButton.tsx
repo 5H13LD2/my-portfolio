@@ -3,16 +3,14 @@ import { FileText } from "lucide-react";
 
 interface ResumeButtonProps {
   onClick: () => void;
-  variant?: "primary" | "secondary";
-  size?: "sm" | "md" | "lg";
+
   showIcon?: boolean;
   className?: string;
 }
 
 const ResumeButton: React.FC<ResumeButtonProps> = ({
   onClick,
-  variant = "primary",
-  size = "md",
+
   showIcon = true,
   className = "",
 }) => {

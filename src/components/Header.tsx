@@ -109,8 +109,7 @@ const Header = () => {
               <div className="flex justify-center">
                 <ResumeButton
                   onClick={openPDFModal}
-                  variant="primary"
-                  size="md"
+
                   className="w-full"
                 />
               </div>
@@ -207,8 +206,7 @@ const Header = () => {
           <div className="flex justify-center">
             <ResumeButton
               onClick={openPDFModal}
-              variant="primary"
-              size="lg"
+
               className="w-full"
             />
           </div>
