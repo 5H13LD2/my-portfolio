@@ -44,6 +44,7 @@ export const projects: Project[] = [
 
     ], // Dito mo ilalagay yung Airflow DAG at Snowflake 200k rows screenshots mo
     airflowUrl: "http://16.176.165.140:8080/home",
+    featured: true,
   },
   {
     id: "2",
@@ -107,6 +108,7 @@ export const projects: Project[] = [
       "Personal portfolio built with React and Tailwind CSS to showcase my projects and skills.",
     tech: ["React", "TypeScript", "Tailwind CSS", "Vite"],
     images: ["/profile.jpg"],
+    featured: true,
   },
   {
     id: "6",

@@ -1,3 +1,5 @@
+@import 'lenis/dist/lenis.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -188,6 +190,19 @@
     }
 }
 
+@keyframes brownout {
+    0% {
+        opacity: 1;
+    }
+    55% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
 .animate-slide-in-up {
     animation: slideInUp 0.6s ease-out;
 }
@@ -198,6 +213,201 @@
 
 .animate-fade-in {
     animation: fadeIn 0.4s ease-in;
+}
+
+.feedback-scroll {
+    scrollbar-width: none;
+    scroll-behavior: auto;
+    overscroll-behavior-x: contain;
+    touch-action: pan-y;
+}
+
+.feedback-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.brownout-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 50% 40%, rgba(40, 33, 24, 0.15), transparent 35%),
+        #000;
+    animation: brownout 0.76s ease-out forwards;
+}
+
+.theme-light {
+    background-color: #f7f3ed !important;
+    color: #251f1b !important;
+}
+
+.theme-light .bg-\[\#0a0a0a\],
+.theme-light .bg-\[\#0d0d0d\],
+.theme-light .bg-\[\#101010\],
+.theme-light .bg-\[\#111\],
+.theme-light .bg-\[\#111111\],
+.theme-light .bg-\[\#171717\],
+.theme-light .bg-\[\#1a1a1a\],
+.theme-light .bg-\[\#1f1f1f\] {
+    background-color: #fffaf2 !important;
+}
+
+.theme-light .bg-\[\#0d1420\],
+.theme-light .bg-\[\#0d1828\],
+.theme-light .bg-\[\#1a2a40\] {
+    background-color: #edf4ff !important;
+}
+
+.theme-light .bg-\[\#0d1f0d\],
+.theme-light .bg-\[\#0d2010\] {
+    background-color: #edf8ed !important;
+}
+
+.theme-light .bg-\[\#2a2a2a\],
+.theme-light .bg-\[\#232323\],
+.theme-light .bg-\[\#242424\] {
+    background-color: #e8dfd2 !important;
+}
+
+.theme-light .border-\[\#1e1e1e\],
+.theme-light .border-\[\#232323\],
+.theme-light .border-\[\#242424\],
+.theme-light .border-\[\#2a2a2a\],
+.theme-light .border-\[\#3a3a3a\] {
+    border-color: #ded2c2 !important;
+}
+
+.theme-light .border-\[\#1a2a40\],
+.theme-light .border-\[\#263a5c\],
+.theme-light .border-\[\#2a4a70\] {
+    border-color: #b8ccec !important;
+}
+
+.theme-light .border-\[\#1a3a1a\],
+.theme-light .border-\[\#1a3a20\] {
+    border-color: #b9d9b9 !important;
+}
+
+.theme-light .text-\[\#e5e5e5\],
+.theme-light .text-\[\#f5f5f5\],
+.theme-light .text-\[\#f2f2f2\],
+.theme-light .text-\[\#f1f1f1\],
+.theme-light .text-\[\#f0f0f0\],
+.theme-light .text-\[\#e0e0e0\],
+.theme-light .text-\[\#ddd\],
+.theme-light .text-\[\#d8d8d8\],
+.theme-light .text-\[\#cfcfcf\],
+.theme-light .text-\[\#ccc\],
+.theme-light .text-\[\#bbb\],
+.theme-light .text-\[\#aaa\],
+.theme-light .text-\[\#999\],
+.theme-light .text-\[\#888\],
+.theme-light .text-\[\#777\],
+.theme-light .text-\[\#666\],
+.theme-light .text-\[\#555\],
+.theme-light .text-\[\#444\],
+.theme-light .text-\[\#333\] {
+    color: #251f1b !important;
+}
+
+.theme-light .text-\[\#4d7cc7\],
+.theme-light .text-\[\#7aadff\] {
+    color: #245aa8 !important;
+}
+
+.theme-light .text-\[\#4ade80\] {
+    color: #188544 !important;
+}
+
+.theme-light .hover\:bg-\[\#1a1a1a\]:hover,
+.theme-light .hover\:bg-\[\#171717\]:hover,
+.theme-light .hover\:bg-\[\#1a2a40\]:hover {
+    background-color: #eee4d6 !important;
+}
+
+.theme-light .hover\:text-\[\#e5e5e5\]:hover,
+.theme-light .hover\:text-white:hover {
+    color: #111 !important;
+}
+
+.theme-light .bg-gradient-to-r,
+.theme-light .bg-gradient-to-l {
+    opacity: 0.65;
+}
+
+.theme-light .site-header {
+    background: rgba(255, 250, 242, 0.96) !important;
+    border-color: #decfba !important;
+    box-shadow: 0 1px 18px rgba(60, 43, 25, 0.08);
+}
+
+.theme-light .site-brand,
+.theme-light .site-brand-name {
+    color: #201813 !important;
+}
+
+.theme-light .site-logo {
+    background-color: #2563eb !important;
+    color: #ffffff !important;
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.22);
+}
+
+.theme-light .nav-link {
+    color: #6f6256 !important;
+}
+
+.theme-light .nav-link:hover {
+    background-color: #efe5d8 !important;
+    color: #201813 !important;
+}
+
+.theme-light .nav-link-active,
+.theme-light .mobile-nav-link-active {
+    background-color: #2563eb !important;
+    color: #ffffff !important;
+}
+
+.theme-light .theme-toggle,
+.theme-light .mobile-menu-button {
+    background-color: #fff8ee !important;
+    border-color: #d8c7b4 !important;
+    color: #342820 !important;
+}
+
+.theme-light .theme-toggle:hover,
+.theme-light .mobile-menu-button:hover {
+    background-color: #f0e4d5 !important;
+    border-color: #bca88f !important;
+    color: #111 !important;
+}
+
+.theme-light .site-header .flex.items-center.gap-2.px-3,
+.theme-light .site-header button[aria-label="View Resume"] {
+    background-color: #fff8ee !important;
+    border-color: #d8c7b4 !important;
+    color: #342820 !important;
+}
+
+.theme-light .site-header button[aria-label="View Resume"]:hover {
+    background-color: #f0e4d5 !important;
+    border-color: #bca88f !important;
+    color: #111 !important;
+}
+
+.theme-light .mobile-nav-panel {
+    background: rgba(255, 250, 242, 0.98) !important;
+    border-color: #decfba !important;
+    box-shadow: 0 18px 60px rgba(65, 45, 24, 0.18);
+}
+
+.theme-light .mobile-nav-link {
+    color: #6f6256 !important;
+}
+
+.theme-light .mobile-nav-link:hover {
+    background-color: #efe5d8 !important;
+    color: #201813 !important;
 }
 
 /* Print styles */
@@ -242,4 +452,40 @@
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
+}
+
+/* --- Padilla Style Refinements --- */
+
+/* Subtle Lines */
+.low-visible-line-h {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05) 15%, rgba(255,255,255,0.05) 85%, transparent);
+}
+
+.low-visible-line-v {
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, rgba(255,255,255,0.03) 15%, rgba(255,255,255,0.03) 85%, transparent);
+}
+
+/* Scroll Indicators & Revealing */
+@keyframes scroller {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(6px); opacity: 0; }
+}
+
+.animate-scroller {
+    animation: scroller 1.5s infinite ease-out;
+}
+
+.reveal-element {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal-element.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }

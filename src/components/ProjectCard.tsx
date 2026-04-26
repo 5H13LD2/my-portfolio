@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ExternalLink, Code2, ZoomIn } from "lucide-react";
+import { ChevronUp, Code2, ExternalLink, Image as ImageIcon, Star, Wind } from "lucide-react";
 import type { Project } from "../types/project";
 import ImageModal from "./ImageModal";
 
@@ -8,14 +8,8 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
-  const [showScreenshots, setShowScreenshots] = useState(false);
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
-    null,
-  );
-
-  const handleImageClick = (index: number) => {
-    setSelectedImageIndex(index);
-  };
+  const [screenshotsOpen, setScreenshotsOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
   const handleCloseModal = () => {
     setSelectedImageIndex(null);
@@ -29,126 +23,107 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
   const handlePrevImage = () => {
     if (selectedImageIndex !== null) {
-      setSelectedImageIndex(
-        (selectedImageIndex - 1 + project.images.length) %
-          project.images.length,
-      );
+      setSelectedImageIndex((selectedImageIndex - 1 + project.images.length) % project.images.length);
     }
+  };
+
+  const toggleScreenshots = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setScreenshotsOpen((prev) => !prev);
   };
 
   return (
     <>
-      <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow">
-        <div className="p-4 sm:p-6 space-y-4">
-          {/* Project Title */}
-          <h3 className="text-xl sm:text-2xl font-bold text-gray-800">
-            {project.title}
-          </h3>
-
-          {/* Description */}
-          <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
-            {project.description}
-          </p>
-
-          {/* Tech Stack */}
-          <div className="space-y-2">
-            <span className="text-sm font-semibold text-gray-700">Stack:</span>
-            <div className="flex flex-wrap gap-2">
-              {project.tech.map((tech, index) => (
-                <span
-                  key={index}
-                  className="px-2 py-1 sm:px-3 sm:py-1 bg-blue-100 text-blue-700 rounded-full text-xs sm:text-sm font-medium"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
+      <div
+        className={`project-card rounded-xl overflow-hidden border transition-all duration-200 hover:-translate-y-0.5 ${
+          project.featured
+            ? "bg-[#0d1420] border-[#1a2a40] hover:border-[#2a3a5a]"
+            : "bg-[#111111] border-[#1e1e1e] hover:border-[#2a2a2a]"
+        }`}
+      >
+        <div className="p-6">
+          <div className="flex items-start justify-between gap-3 mb-3">
+            <h3 className="text-lg font-medium text-[#e0e0e0] leading-snug">{project.title}</h3>
+            {project.featured && (
+              <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-[#1a2a40] text-[#4d7cc7] text-[11px] font-medium flex-shrink-0">
+                <Star size={10} fill="currentColor" /> Featured
+              </span>
+            )}
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 pt-2">
-            <button
-              onClick={() => setShowScreenshots(!showScreenshots)}
-              className="px-4 py-2 sm:px-6 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm sm:text-base w-full sm:w-auto"
-            >
-              {showScreenshots ? "Hide Screenshots" : "View Screenshots"}
-            </button>
+          <p className="text-sm text-[#777] leading-[1.75] mb-4">{project.description}</p>
 
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-              {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 sm:px-6 sm:py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-                >
-                  <ExternalLink size={16} />
-                  Live Demo
-                </a>
-              )}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {project.tech.map((tech) => (
+              <span key={tech} className="px-2.5 py-1 rounded bg-[#0d1828] border border-[#1a2a40] text-[#4d7cc7] text-xs">
+                {tech}
+              </span>
+            ))}
+          </div>
 
-              {project.repoUrl && (
-                <a
-                  href={project.repoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 sm:px-6 sm:py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-                >
-                  <Code2 size={16} />
-                  View Code
-                </a>
-              )}
-
-              {project.airflowUrl && (
-                <a
-                  href={project.airflowUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 sm:px-6 sm:py-2 bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition-colors font-medium flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
-                >
-                  <ExternalLink size={16} />
-                  View Airflow UI
-                </a>
-              )}
-            </div>
+          <div className="flex flex-wrap gap-2">
+            {project.repoUrl && (
+              <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md border border-[#2a2a2a] text-[#888] text-xs hover:border-[#444] hover:text-[#e5e5e5] transition-colors">
+                <Code2 size={12} />
+                View Code
+              </a>
+            )}
+            {project.liveUrl && (
+              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md border border-[#2a2a2a] text-[#888] text-xs hover:border-[#444] hover:text-[#e5e5e5] transition-colors">
+                <ExternalLink size={12} />
+                Live
+              </a>
+            )}
+            {project.airflowUrl && (
+              <a href={project.airflowUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md border border-[#1a2a40] text-[#4d7cc7] text-xs hover:bg-[#1a2a40] transition-colors">
+                <Wind size={12} />
+                Airflow UI
+              </a>
+            )}
+            {project.images.length > 0 && (
+              <button
+                onClick={toggleScreenshots}
+                className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs border transition-colors ${
+                  screenshotsOpen
+                    ? "border-[#2a4a70] bg-[#1a2a40] text-[#7aadff]"
+                    : "border-[#1a2a40] bg-[#0d1828] text-[#4d7cc7] hover:border-[#2a4a70] hover:bg-[#1a2a40] hover:text-[#7aadff]"
+                }`}
+              >
+                {screenshotsOpen ? (
+                  <>
+                    <ChevronUp size={12} />
+                    Hide Screenshots
+                  </>
+                ) : (
+                  <>
+                    <ImageIcon size={12} />
+                    View Screenshots ({project.images.length})
+                  </>
+                )}
+              </button>
+            )}
           </div>
         </div>
 
-        {/* Screenshots Section */}
-        {showScreenshots && (
-          <div className="border-t border-gray-200 p-4 sm:p-6 bg-gray-50">
-            <h4 className="text-lg sm:text-xl font-bold text-gray-800 mb-4">
-              Screenshots
-            </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        {screenshotsOpen && project.images.length > 0 && (
+          <div className="border-t border-[#1e1e1e] bg-[#0a0a0a] px-5 py-4">
+            <p className="text-[10px] text-[#444] uppercase tracking-wider mb-2">Screenshots - click to enlarge</p>
+            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin scrollbar-thumb-[#222]">
               {project.images.map((image, index) => (
-                <div
-                  key={index}
-                  className="relative group rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all cursor-pointer"
-                  onClick={() => handleImageClick(index)}
+                <button
+                  key={image}
+                  onClick={() => setSelectedImageIndex(index)}
+                  className="w-[112px] h-[72px] rounded-md overflow-hidden flex-shrink-0 cursor-pointer border-[1.5px] border-transparent hover:border-[#4d7cc7] transition-colors"
+                  title={`Screenshot ${index + 1}`}
                 >
-                  <img
-                    src={image}
-                    alt={`${project.title} screenshot ${index + 1}`}
-                    className="w-full h-auto object-contain bg-gray-100"
-                  />
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all flex items-center justify-center">
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                      <ZoomIn
-                        size={32}
-                        className="text-white sm:w-12 sm:h-12"
-                      />
-                    </div>
-                  </div>
-                </div>
+                  <img src={image} alt={`${project.title} screenshot ${index + 1}`} className="w-full h-full object-cover block" />
+                </button>
               ))}
             </div>
           </div>
         )}
       </div>
 
-      {/* Image Modal */}
       {selectedImageIndex !== null && (
         <ImageModal
           images={project.images}

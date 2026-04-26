@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 // Firebase configuration using environment variables with fallbacks
 const firebaseConfig = {
@@ -21,6 +22,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: "select_account" });
 
 // Initialize Firestore with error handling
 export const db = (() => {
@@ -32,3 +35,14 @@ export const db = (() => {
     return null as any;
   }
 })();
+
+export const auth = (() => {
+  try {
+    return getAuth(app);
+  } catch (error) {
+    console.warn("Firebase auth initialization failed:", error);
+    return null as any;
+  }
+})();
+
+export { googleProvider };

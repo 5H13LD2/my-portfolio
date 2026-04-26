@@ -1,224 +1,335 @@
+import { useEffect, useRef, useState, type PointerEvent } from "react";
+import { ArrowRight, CalendarDays, ExternalLink, Github, Linkedin, Mail, MapPin, MessageSquare, Star } from "lucide-react";
 import { projects } from "../data/projects";
+import { useFeedback } from "../hooks/useFeedback";
+import type { Feedback } from "../types/feedback";
+import type { Project } from "../types/project";
+import UserAvatar from "../components/UserAvatar";
 
-import ProjectCard from "../components/ProjectCard";
-import CertificatesSection from "../components/CertificatesSection";
-import ResumeButton from "../components/ResumeButton";
-import PDFModal from "../components/PDFModal";
-import { useState } from "react";
+type HomeProps = {
+  onNavigateToProjects: () => void;
+  onNavigateToFeedback: () => void;
+  onNavigateToContact: () => void;
+};
 
-const Home = () => {
-  const [isPDFModalOpen, setIsPDFModalOpen] = useState(false);
+const stats = [
+  ["200k+", "records processed"],
+  ["8", "portfolio projects"],
+  ["6", "certifications"],
+];
 
-  const openPDFModal = () => {
-    setIsPDFModalOpen(true);
+const fallbackFeedback: Feedback[] = [
+  {
+    id: "fallback-feedback-1",
+    name: "Juan dela Cruz",
+    email: "sample@gmail.com",
+    message: "Very accommodating and mabilis gumawa. Professional kausap from start to finish.",
+    star: 5,
+    date: new Date(),
+  },
+  {
+    id: "fallback-feedback-2",
+    name: "Client Partner",
+    email: "client@example.com",
+    message: "Great work. My web app works smoothly and everything functions well.",
+    star: 5,
+    date: new Date(),
+  },
+  {
+    id: "fallback-feedback-3",
+    name: "Project Owner",
+    email: "owner@example.com",
+    message: "Highly recommended. Clear communication, detailed output, and easy to work with.",
+    star: 5,
+    date: new Date(),
+  },
+];
+
+const getFeaturedProjects = () => {
+  const featured = projects.filter((project) => project.featured);
+  const remaining = projects.filter((project) => !project.featured);
+  return [...featured, ...remaining].slice(0, 3);
+};
+
+function SectionHeader({
+  eyebrow,
+  title,
+  actionLabel,
+  onAction,
+}: {
+  eyebrow: string;
+  title: string;
+  actionLabel: string;
+  onAction: () => void;
+}) {
+  return (
+    <div className="flex items-end justify-between gap-5 mb-9">
+      <div>
+        <p className="text-[11px] font-semibold text-[#d8d8d8] uppercase tracking-[0.22em] mb-3">{eyebrow}</p>
+        <h2 className="text-3xl sm:text-4xl font-semibold text-[#f0f0f0]">{title}</h2>
+      </div>
+      <button onClick={onAction} className="hidden sm:inline-flex items-center gap-2 text-sm text-[#f1f1f1] hover:text-[#7aadff] transition-colors">
+        {actionLabel}
+        <ArrowRight size={15} className="-rotate-45" />
+      </button>
+    </div>
+  );
+}
+
+function FeaturedProjectCard({ project }: { project: Project }) {
+  const previewImage = project.images[0] ?? "/profile.jpg";
+
+  return (
+    <article className="group rounded-xl border border-[#232323] bg-[#0d0d0d] overflow-hidden transition-all hover:-translate-y-1 hover:border-[#3a3a3a]">
+      <div className="aspect-[16/9] overflow-hidden bg-[#111]">
+        <img src={previewImage} alt={project.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+      </div>
+      <div className="p-5">
+        <h3 className="text-lg font-semibold text-[#f0f0f0] mb-2">{project.title}</h3>
+        <p className="text-sm text-[#999] leading-[1.7] line-clamp-2 mb-4">{project.description}</p>
+        <div className="flex flex-wrap gap-2 mb-5">
+          {project.tech.slice(0, 4).map((tech) => (
+            <span key={tech} className="rounded-full bg-[#2a2a2a] px-3 py-1 text-[11px] font-semibold text-[#f2f2f2]">
+              {tech}
+            </span>
+          ))}
+        </div>
+        <button className="inline-flex items-center gap-2 text-sm font-semibold text-[#f5f5f5]">
+          <ExternalLink size={14} />
+          View on Projects
+        </button>
+      </div>
+    </article>
+  );
+}
+
+function FeedbackPreviewCard({ item }: { item: Feedback }) {
+  const formattedDate = new Intl.DateTimeFormat("en", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(item.date);
+
+  return (
+    <article className="w-[300px] sm:w-[340px] flex-shrink-0 rounded-xl border border-[#232323] bg-[#0d0d0d] p-6">
+      <div className="flex items-start justify-between gap-3 mb-5">
+        <div className="flex gap-0.5 text-[#facc15]" aria-label={`${item.star} out of 5 stars`}>
+          {Array.from({ length: 5 }, (_, index) => (
+            <Star key={index} size={15} fill={index < item.star ? "currentColor" : "none"} className={index < item.star ? "text-[#facc15]" : "text-[#333]"} />
+          ))}
+        </div>
+        <div className="inline-flex items-center gap-1 text-[11px] text-[#777] whitespace-nowrap">
+          <CalendarDays size={12} />
+          {formattedDate}
+        </div>
+      </div>
+      <p className="text-sm text-[#b8b8b8] leading-[1.75] line-clamp-4 min-h-[98px] mb-5">{item.message}</p>
+      <div className="border-t border-[#242424] pt-4 flex items-center gap-3">
+        <UserAvatar name={item.name} photoURL={item.photoURL} />
+        <div className="min-w-0">
+          <p className="text-sm font-semibold text-[#f0f0f0] truncate">{item.name}</p>
+          <p className="text-xs text-[#777]">Client</p>
+          <p className="text-xs text-[#777] truncate">{item.email}</p>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export default function Home({ onNavigateToProjects, onNavigateToFeedback, onNavigateToContact }: HomeProps) {
+  const { feedback } = useFeedback();
+  const feedbackScrollerRef = useRef<HTMLDivElement | null>(null);
+  const dragState = useRef({ active: false, left: 0, startX: 0 });
+  const [isDraggingFeedback, setIsDraggingFeedback] = useState(false);
+  const featuredProjects = getFeaturedProjects();
+  const previewFeedback = feedback.length ? feedback.slice(0, 6) : fallbackFeedback;
+  const animatedFeedback = [...previewFeedback, ...previewFeedback, ...previewFeedback];
+
+  useEffect(() => {
+    let frameId = 0;
+    let lastTime = 0;
+    let initialized = false;
+
+    const animateFeedback = (time: number) => {
+      const scroller = feedbackScrollerRef.current;
+
+      if (scroller && !dragState.current.active) {
+        const segmentWidth = scroller.scrollWidth / 3;
+
+        if (!initialized && segmentWidth > 0) {
+          scroller.scrollLeft = segmentWidth;
+          initialized = true;
+        }
+
+        if (lastTime) {
+          const deltaSeconds = (time - lastTime) / 1000;
+          scroller.scrollLeft -= 56 * deltaSeconds;
+        }
+
+        if (segmentWidth > 0 && scroller.scrollLeft <= 0) {
+          scroller.scrollLeft += segmentWidth;
+        }
+      }
+
+      lastTime = time;
+      frameId = window.requestAnimationFrame(animateFeedback);
+    };
+
+    frameId = window.requestAnimationFrame(animateFeedback);
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, [animatedFeedback.length]);
+
+  const startFeedbackDrag = (event: PointerEvent<HTMLDivElement>) => {
+    const scroller = feedbackScrollerRef.current;
+    if (!scroller) return;
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+    event.preventDefault();
+    setIsDraggingFeedback(true);
+    dragState.current = {
+      active: true,
+      left: scroller.scrollLeft,
+      startX: event.clientX,
+    };
   };
 
-  const closePDFModal = () => {
-    setIsPDFModalOpen(false);
+  const moveFeedbackDrag = (event: PointerEvent<HTMLDivElement>) => {
+    const scroller = feedbackScrollerRef.current;
+    if (!scroller || !dragState.current.active) return;
+
+    event.preventDefault();
+    const distance = event.clientX - dragState.current.startX;
+    scroller.scrollLeft = dragState.current.left - distance;
+  };
+
+  const stopFeedbackDrag = () => {
+    dragState.current.active = false;
+    setIsDraggingFeedback(false);
   };
 
   return (
-    <div className="lg:ml-96 min-h-screen pt-20 lg:pt-0">
-      <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6 lg:space-y-8">
-        {/* Resume Section */}
-        <div className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow">
-          <div className="p-4 sm:p-6 space-y-4">
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
-              Resume
-            </h2>
-
-            <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
-              Download my resume to get a detailed overview of my experience,
-              skills, and education.
-            </p>
-
-            <div className="space-y-2">
-              <span className="text-sm font-semibold text-gray-700">
-                Format:
-              </span>
-              <div className="flex flex-wrap gap-2">
-                <span className="px-2 py-1 sm:px-3 sm:py-1 bg-blue-100 text-blue-700 rounded-full text-xs sm:text-sm font-medium">
-                  PDF
+    <main className="relative z-10 min-h-[calc(100vh-56px)]">
+      <section className="min-h-[calc(100vh-56px)] flex items-center">
+        <div className="max-w-[1180px] mx-auto px-5 sm:px-8 lg:px-10 py-16 sm:py-20 w-full">
+          <div className="grid lg:grid-cols-[1fr_320px] gap-12 lg:gap-20 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#1a3a1a] bg-[#0d1f0d] text-[#4ade80] text-xs mb-5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#4ade80] animate-pulse" />
+                Available for work
+              </div>
+              <h1 className="text-5xl sm:text-6xl lg:text-[72px] font-medium leading-[1.02] text-[#f5f5f5] mb-5">
+                Jerico Jimenez
+              </h1>
+              <div className="flex items-center gap-2.5 mb-6 flex-wrap">
+                <span className="text-base font-medium">Data Engineer</span>
+                <span className="text-[#2a2a2a]">/</span>
+                <span className="inline-flex items-center gap-1.5 text-sm text-[#777]">
+                  <MapPin size={14} />
+                  Philippines
                 </span>
-                <span className="px-2 py-1 sm:px-3 sm:py-1 bg-blue-100 text-blue-700 rounded-full text-xs sm:text-sm font-medium">
-                  Updated 2026
-                </span>
+              </div>
+              <p className="text-base sm:text-lg text-[#888] leading-[1.8] mb-8 max-w-[720px]">
+                I build dependable data pipelines, backend systems, and reporting workflows that turn messy operational data into clean, usable decisions. Explore each page for larger project details, credentials, client feedback, and contact options.
+              </p>
+              <div className="flex flex-wrap gap-3 mb-8">
+                <button onClick={onNavigateToContact} className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#3a3a3a] rounded-lg text-sm hover:bg-[#e5e5e5] hover:text-[#0a0a0a] hover:border-[#e5e5e5] transition-all">
+                  Hire Me <ArrowRight size={15} />
+                </button>
+                <button onClick={onNavigateToProjects} className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#2a2a2a] rounded-lg text-sm text-[#777] hover:border-[#555] hover:text-[#e5e5e5] transition-all">
+                  View Work
+                </button>
+              </div>
+              <div className="flex gap-2.5">
+                <a href="https://www.linkedin.com/in/jerico-jimenez-a504852a4/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#2a2a2a] bg-[#111] flex items-center justify-center text-[#777] hover:text-[#e5e5e5] hover:border-[#555] transition-all" aria-label="LinkedIn">
+                  <Linkedin size={15} />
+                </a>
+                <a href="https://github.com/5H13LD2" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#2a2a2a] bg-[#111] flex items-center justify-center text-[#777] hover:text-[#e5e5e5] hover:border-[#555] transition-all" aria-label="GitHub">
+                  <Github size={15} />
+                </a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=jimenezjerico227@gmail.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-[#2a2a2a] bg-[#111] flex items-center justify-center text-[#777] hover:text-[#e5e5e5] hover:border-[#555] transition-all" aria-label="Email">
+                  <Mail size={15} />
+                </a>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 pt-2">
-              <ResumeButton
-                onClick={openPDFModal}
-                variant="primary"
-                size="md"
-                className="w-full sm:w-auto"
-              />
+            <div className="lg:justify-self-end">
+              <div className="w-[260px] sm:w-[320px] aspect-square rounded-2xl bg-[#111] border border-[#1e1e1e] overflow-hidden">
+                <img src="/profile.jpg" alt="Jerico Jimenez" className="w-full h-full object-cover" />
+              </div>
+              <div className="grid grid-cols-3 gap-2 mt-3 w-full max-w-[320px]">
+                {stats.map(([value, label]) => (
+                  <div key={label} className="border border-[#1e1e1e] bg-[#101010] rounded-lg px-3 py-3">
+                    <div className="text-lg font-medium text-[#e5e5e5]">{value}</div>
+                    <div className="text-[11px] leading-tight text-[#555]">{label}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Projects Section */}
-        <div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 lg:mb-8">
-            Projects
-          </h2>
-
-          <div className="space-y-4 lg:space-y-6">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+      <section className="border-t border-[#1e1e1e]">
+        <div className="max-w-[1180px] mx-auto px-5 sm:px-8 lg:px-10 py-16 sm:py-20">
+          <SectionHeader eyebrow="Portfolio" title="Featured Projects" actionLabel="View all" onAction={onNavigateToProjects} />
+          <div className="grid md:grid-cols-3 gap-5">
+            {featuredProjects.map((project) => (
+              <button key={project.id} onClick={onNavigateToProjects} className="text-left">
+                <FeaturedProjectCard project={project} />
+              </button>
             ))}
           </div>
+          <button onClick={onNavigateToProjects} className="sm:hidden mt-6 inline-flex items-center gap-2 text-sm text-[#f1f1f1]">
+            View all projects <ArrowRight size={15} />
+          </button>
         </div>
+      </section>
 
-        {/* Certificates Section */}
-        <CertificatesSection />
-
-        {/* Skills Section */}
-        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 space-y-6">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
-            Technical Skills
-          </h2>
-
-          {/* Frontend */}
-          <div>
-            <h3 className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-3">
-              Frontend
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {[
-                "React",
-                "TypeScript",
-                "JavaScript",
-                "Tailwind CSS",
-                "Bootstrap",
-                "XML (Android UI)",
-                "Blade (Laravel)",
-                "Livewire",
-              ].map((skill) => (
-                <span
-                  key={skill}
-                  className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
+      <section className="border-t border-[#1e1e1e] overflow-hidden">
+        <div className="max-w-[1180px] mx-auto px-5 sm:px-8 lg:px-10 py-16 sm:py-20">
+          <SectionHeader eyebrow="Social Proof" title="What Clients Say" actionLabel="See all" onAction={onNavigateToFeedback} />
+        </div>
+        <div className="relative pb-16 sm:pb-20">
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#0a0a0a] to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#0a0a0a] to-transparent" />
+          <div
+            ref={feedbackScrollerRef}
+            className={`feedback-scroll flex gap-5 overflow-x-auto px-5 pb-3 select-none ${isDraggingFeedback ? "cursor-grabbing is-dragging" : "cursor-grab"}`}
+            onPointerDown={startFeedbackDrag}
+            onPointerMove={moveFeedbackDrag}
+            onPointerUp={stopFeedbackDrag}
+            onPointerCancel={stopFeedbackDrag}
+            onLostPointerCapture={stopFeedbackDrag}
+          >
+            {animatedFeedback.map((item, index) => (
+              <FeedbackPreviewCard key={`${item.id}-${index}`} item={item} />
+            ))}
           </div>
-
-          {/* Backend */}
-          <div>
-            <h3 className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-3">
-              Backend
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {[
-                "Laravel 12",
-                "Node.js",
-                "PHP",
-                "Kotlin (Android)",
-                "Firebase",
-              ].map((skill) => (
-                <span
-                  key={skill}
-                  className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Databases */}
-          <div>
-            <h3 className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-3">
-              Databases
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {[
-                "MySQL",
-                "PostgreSQL",
-                "MongoDB",
-                "Firebase Firestore",
-                "IBM Cloud DB",
-              ].map((skill) => (
-                <span
-                  key={skill}
-                  className="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Data & Analytics */}
-          <div>
-            <h3 className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-3">
-              Data & Analytics
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {[
-                "Python",
-                "Pandas",
-                "Power BI",
-                "Jaspersoft",
-                "Pentaho (Kettle)",
-                "SQL Scripting",
-                "ETL Pipelines",
-                "Data Cleaning",
-                "Data Visualization",
-                "Google Sheets / Excel",
-                "WinMerge",
-              ].map((skill) => (
-                <span
-                  key={skill}
-                  className="px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-medium"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Tools & DevOps */}
-          <div>
-            <h3 className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-3">
-              Tools & DevOps
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {[
-                "Git",
-                "GitHub",
-                "Vite",
-                "Android Studio",
-                "Chaquopy",
-                "IBM Cloud",
-                "Postman",
-              ].map((skill) => (
-                <span
-                  key={skill}
-                  className="px-2 py-1 bg-gray-200 text-gray-700 rounded-full text-xs font-medium"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
+          <div className="max-w-[1180px] mx-auto px-5 sm:px-8 lg:px-10">
+            <button onClick={onNavigateToFeedback} className="sm:hidden mt-6 inline-flex items-center gap-2 text-sm text-[#f1f1f1]">
+              See all feedback <ArrowRight size={15} />
+            </button>
           </div>
         </div>
+      </section>
 
-        {/* Add some bottom padding for mobile */}
-        <div className="h-8 lg:h-0"></div>
-      </div>
-
-      {/* PDF Modal */}
-      <PDFModal
-        isOpen={isPDFModalOpen}
-        onClose={closePDFModal}
-        pdfUrl="/other/Jimenez_Jerico_Resume.pdf"
-        fileName="Jimenez_Jerico_Resume.pdf"
-      />
-    </div>
+      <section className="border-t border-[#1e1e1e]">
+        <div className="max-w-[1180px] mx-auto px-5 sm:px-8 lg:px-10 py-16 sm:py-20">
+          <div className="rounded-2xl border border-[#232323] bg-[#0d0d0d] p-7 sm:p-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div>
+              <p className="text-[11px] font-semibold text-[#4d7cc7] uppercase tracking-[0.22em] mb-3">Get in touch</p>
+              <h2 className="text-3xl sm:text-4xl font-semibold text-[#f0f0f0] mb-3">Have a project in mind?</h2>
+              <p className="text-sm sm:text-base text-[#888] max-w-[640px] leading-[1.75]">
+                Tell me what you are building, what data you need cleaned up, or what workflow you want to automate.
+              </p>
+            </div>
+            <button onClick={onNavigateToContact} className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#e5e5e5] px-5 py-3 text-sm font-semibold text-[#0a0a0a] transition-colors hover:bg-white">
+              Contact me <MessageSquare size={16} />
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
   );
-};
-
-export default Home;
+}
