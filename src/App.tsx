@@ -33,6 +33,7 @@ export default function App() {
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
   const [showBrownout, setShowBrownout] = useState(() => getInitialTheme() === "dark");
   const [scrolled, setScrolled] = useState(false);
+  const [transitionCue, setTransitionCue] = useState({ id: 0, label: "Home" });
 
   useLenis();
 
@@ -66,6 +67,8 @@ export default function App() {
   };
 
   const navigateToPage = (page: PageId) => {
+    const targetLabel = NAV_ITEMS.find((item) => item.page === page)?.label ?? "Home";
+    setTransitionCue((current) => ({ id: current.id + 1, label: targetLabel }));
     setActivePage(page);
     setMobileMenuOpen(false);
 
@@ -121,7 +124,7 @@ export default function App() {
               onClick={() => navigateToPage(item.page)}
               className={`nav-link px-2.5 sm:px-3.5 py-1.5 rounded-md text-[12px] sm:text-[13px] transition-all whitespace-nowrap ${activePage === item.page ? "nav-link-active bg-blue-600 text-white" : "text-[#666] hover:text-[#e5e5e5] hover:bg-[#1a1a1a]"}`}
             >
-              {item.label}
+              <span className={activePage === item.page ? "nav-bounce-text" : ""}>{item.label}</span>
             </button>
           ))}
         </div>
@@ -176,7 +179,17 @@ export default function App() {
       )}
 
       <div className="pt-14">
-        <div key={activePage} className="animate-fade-in">
+        {transitionCue.id > 0 && (
+          <div key={transitionCue.id} className="page-transition-cue" aria-hidden="true">
+            {transitionCue.label.split("").map((letter, index) => (
+              <span key={`${letter}-${index}`} style={{ animationDelay: `${index * 0.035}s` }}>
+                {letter === " " ? "\u00a0" : letter}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div key={activePage} className="page-motion-shell">
           {renderPage()}
         </div>
 

@@ -14,7 +14,7 @@ type HomeProps = {
 
 const stats = [
   ["200k+", "records processed"],
-  ["8", "portfolio projects"],
+  ["7", "portfolio projects"],
   ["6", "certifications"],
 ];
 

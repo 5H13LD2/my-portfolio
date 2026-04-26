@@ -1,8 +1,78 @@
+import { useEffect, useState } from "react";
 import ProjectCard from "../components/ProjectCard";
+import ProjectImageDetailCard from "../components/ProjectImageDetailCard";
 import { projects } from "../data/projects";
+import type { Project } from "../types/project";
+
+function ProjectCardSkeleton() {
+  return (
+    <div className="project-skeleton rounded-xl border border-[#1e1e1e] bg-[#111111] overflow-hidden">
+      <div className="p-6">
+        <div className="flex items-start justify-between gap-3 mb-4">
+          <div className="skeleton-line h-6 w-3/5 rounded" />
+          <div className="skeleton-line h-6 w-20 rounded" />
+        </div>
+        <div className="space-y-2.5 mb-5">
+          <div className="skeleton-line h-3.5 w-full rounded" />
+          <div className="skeleton-line h-3.5 w-11/12 rounded" />
+          <div className="skeleton-line h-3.5 w-4/5 rounded" />
+        </div>
+        <div className="flex flex-wrap gap-2 mb-5">
+          {Array.from({ length: 5 }, (_, index) => (
+            <div key={index} className="skeleton-line h-7 w-20 rounded" />
+          ))}
+        </div>
+        <div className="flex gap-2">
+          <div className="skeleton-line h-8 w-28 rounded-md" />
+          <div className="skeleton-line h-8 w-36 rounded-md" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Projects() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState<{ project: Project; imageIndex: number } | null>(null);
   const featuredCount = projects.filter((project) => project.featured).length;
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => setIsLoading(false), 650);
+    return () => window.clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    if (!selectedImage) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setSelectedImage(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedImage]);
+
+  const handleNextImage = () => {
+    setSelectedImage((current) => {
+      if (!current) return current;
+      return {
+        project: current.project,
+        imageIndex: (current.imageIndex + 1) % current.project.images.length,
+      };
+    });
+  };
+
+  const handlePrevImage = () => {
+    setSelectedImage((current) => {
+      if (!current) return current;
+      return {
+        project: current.project,
+        imageIndex: (current.imageIndex - 1 + current.project.images.length) % current.project.images.length,
+      };
+    });
+  };
 
   return (
     <main className="relative z-10 min-h-[calc(100vh-56px)]">
@@ -28,11 +98,25 @@ export default function Projects() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-5">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
+          {isLoading
+            ? Array.from({ length: 4 }, (_, index) => <ProjectCardSkeleton key={index} />)
+            : projects.map((project, index) => (
+                <div key={project.id} className="project-card-enter" style={{ animationDelay: `${index * 0.07}s` }}>
+                  <ProjectCard project={project} onImageSelect={(selectedProject, imageIndex) => setSelectedImage({ project: selectedProject, imageIndex })} />
+                </div>
+              ))}
         </div>
       </div>
+
+      {selectedImage && (
+        <ProjectImageDetailCard
+          project={selectedImage.project}
+          currentIndex={selectedImage.imageIndex}
+          onClose={() => setSelectedImage(null)}
+          onNext={handleNextImage}
+          onPrev={handlePrevImage}
+        />
+      )}
     </main>
   );
 }

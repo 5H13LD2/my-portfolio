@@ -21,6 +21,28 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: "8",
+    title: "Makati City Accounting & Information System (AIS)",
+    description:
+      "Built modules for a government Accounting & Information System during my full-stack engineering internship at Simplevia Technologies. Developed Laravel 9 backend services and Vue.js interfaces for journalization, financial reporting, automated OR/JEV generation, and multi-stage approval workflows aligned with Philippine COA standards. Strengthened secure role-based access with Spatie RBAC while supporting complex MySQL schemas, audit trails, and production-scale financial data processes.",
+    tech: [
+      "Laravel 9",
+      "Vue.js",
+      "MySQL",
+      "Spatie RBAC",
+      "PHP",
+      "Financial Reporting",
+      "Audit Trails",
+    ],
+    images: [
+      "/assets/makati-ais-screenshot/Screenshot from 2026-04-26 16-07-11.png",
+      "/assets/makati-ais-screenshot/Screenshot from 2026-04-26 16-07-34.png",
+      "/assets/makati-ais-screenshot/Screenshot from 2026-04-26 16-07-49.png",
+      "/assets/makati-ais-screenshot/Screenshot from 2026-04-26 16-07-57.png",
+    ],
+    featured: true,
+  },
+  {
     id: "7",
     title: "Enterprise Retail Data Pipeline (S3 to Snowflake)",
     description:
@@ -100,15 +122,6 @@ export const projects: Project[] = [
       "/assets/data-analyst/Screenshot 2026-02-24 122147.png",
       "/assets/data-analyst/Screenshot 2026-02-24 122404.png",
     ],
-  },
-  {
-    id: "5",
-    title: "Portfolio Website",
-    description:
-      "Personal portfolio built with React and Tailwind CSS to showcase my projects and skills.",
-    tech: ["React", "TypeScript", "Tailwind CSS", "Vite"],
-    images: ["/profile.jpg"],
-    featured: true,
   },
   {
     id: "6",

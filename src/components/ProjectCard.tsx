@@ -1,31 +1,14 @@
 import React, { useState } from "react";
 import { ChevronUp, Code2, ExternalLink, Image as ImageIcon, Star, Wind } from "lucide-react";
 import type { Project } from "../types/project";
-import ImageModal from "./ImageModal";
 
 interface ProjectCardProps {
   project: Project;
+  onImageSelect?: (project: Project, imageIndex: number) => void;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, onImageSelect }) => {
   const [screenshotsOpen, setScreenshotsOpen] = useState(false);
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-
-  const handleCloseModal = () => {
-    setSelectedImageIndex(null);
-  };
-
-  const handleNextImage = () => {
-    if (selectedImageIndex !== null) {
-      setSelectedImageIndex((selectedImageIndex + 1) % project.images.length);
-    }
-  };
-
-  const handlePrevImage = () => {
-    if (selectedImageIndex !== null) {
-      setSelectedImageIndex((selectedImageIndex - 1 + project.images.length) % project.images.length);
-    }
-  };
 
   const toggleScreenshots = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -112,7 +95,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
               {project.images.map((image, index) => (
                 <button
                   key={image}
-                  onClick={() => setSelectedImageIndex(index)}
+                  onClick={() => onImageSelect?.(project, index)}
                   className="w-[112px] h-[72px] rounded-md overflow-hidden flex-shrink-0 cursor-pointer border-[1.5px] border-transparent hover:border-[#4d7cc7] transition-colors"
                   title={`Screenshot ${index + 1}`}
                 >
@@ -123,17 +106,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           </div>
         )}
       </div>
-
-      {selectedImageIndex !== null && (
-        <ImageModal
-          images={project.images}
-          currentIndex={selectedImageIndex}
-          onClose={handleCloseModal}
-          onNext={handleNextImage}
-          onPrev={handlePrevImage}
-          projectTitle={project.title}
-        />
-      )}
     </>
   );
 };
