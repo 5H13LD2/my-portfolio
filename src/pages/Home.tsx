@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { ArrowRight, CalendarDays, ExternalLink, Github, Linkedin, Mail, MapPin, MessageSquare, Star } from "lucide-react";
 import { projects } from "../data/projects";
+import { team, type TeamMember } from "../data/team";
 import { useFeedback } from "../hooks/useFeedback";
 import type { Feedback } from "../types/feedback";
 import type { Project } from "../types/project";
@@ -131,6 +132,43 @@ function FeedbackPreviewCard({ item }: { item: Feedback }) {
           <p className="text-xs text-[#777]">Client</p>
           <p className="text-xs text-[#777] truncate">{item.email}</p>
         </div>
+      </div>
+    </article>
+  );
+}
+
+function TeamMemberCard({ member }: { member: TeamMember }) {
+  return (
+    <article className="group flex flex-col items-center text-center">
+      <div className="h-36 w-36 sm:h-40 sm:w-40 overflow-hidden rounded-full border border-[#2a2a2a] bg-[#111] transition-all duration-300 group-hover:border-[#4d7cc7]">
+        <img src={member.image} alt={member.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+      </div>
+
+      <h3 className="mt-6 text-base font-semibold uppercase tracking-wide text-[#f0f0f0]">{member.name}</h3>
+      <p className="mt-1 text-sm font-semibold text-[#4d7cc7]">{member.role}</p>
+      <a href={`mailto:${member.email}`} className="mt-3 text-sm text-[#888] transition-colors hover:text-[#e5e5e5]">
+        {member.email}
+      </a>
+
+      <div className="mt-5 flex items-center justify-center gap-3">
+        <a
+          href={`mailto:${member.email}`}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-[#242424] bg-[#0d0d0d] text-[#777] transition-all hover:border-[#555] hover:text-[#e5e5e5]"
+          aria-label={`Email ${member.name}`}
+        >
+          <Mail size={15} />
+        </a>
+        {member.linkedinUrl ? (
+          <a
+            href={member.linkedinUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-[#242424] bg-[#0d0d0d] text-[#777] transition-all hover:border-[#555] hover:text-[#e5e5e5]"
+            aria-label={`${member.name} on LinkedIn`}
+          >
+            <Linkedin size={15} />
+          </a>
+        ) : null}
       </div>
     </article>
   );
@@ -283,6 +321,24 @@ export default function Home({ onNavigateToProjects, onNavigateToFeedback, onNav
           <button onClick={onNavigateToProjects} className="sm:hidden mt-6 inline-flex items-center gap-2 text-sm text-[#f1f1f1]">
             View all projects <ArrowRight size={15} />
           </button>
+        </div>
+      </section>
+
+      <section className="border-t border-[#1e1e1e]">
+        <div className="max-w-[1180px] mx-auto px-5 sm:px-8 lg:px-10 py-16 sm:py-20">
+          <div className="mx-auto mb-12 max-w-[680px] text-center">
+            <p className="text-[11px] font-semibold text-[#4d7cc7] uppercase tracking-[0.22em] mb-3">Meet The Team</p>
+            <h2 className="text-3xl sm:text-4xl font-semibold text-[#f0f0f0]">Our Team</h2>
+            <p className="mt-4 text-sm sm:text-base leading-[1.75] text-[#888]">
+              A focused team bringing together data engineering, full-stack development, and product design.
+            </p>
+          </div>
+
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+            {team.map((member) => (
+              <TeamMemberCard key={member.id} member={member} />
+            ))}
+          </div>
         </div>
       </section>
 

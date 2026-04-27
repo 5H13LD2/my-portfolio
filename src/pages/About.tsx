@@ -1,4 +1,6 @@
+import { BriefcaseBusiness, CalendarDays } from "lucide-react";
 import CertificatesSection from "../components/CertificatesSection";
+import { experience } from "../data/experience";
 
 const skillGroups = [
   { category: "Data Engineering", items: ["Python", "Apache Airflow", "Snowflake", "Amazon S3", "Pentaho", "ETL Pipelines", "Data Cleaning", "Data Visualization"] },
@@ -53,6 +55,55 @@ export default function About() {
             </div>
           </aside>
         </div>
+
+        <section className="mb-14">
+          <div className="border border-[#1e1e1e] bg-[#080808] rounded-xl p-6 sm:p-8">
+            <h2 className="text-2xl font-semibold text-[#f0f0f0] mb-8">Experience</h2>
+
+            <div className="relative border-l border-[#242424] pl-5 sm:pl-7 space-y-10">
+              {experience.map((item) => (
+                <article key={item.id} className="relative">
+                  <span className="absolute -left-[29px] sm:-left-[37px] top-1 h-4 w-4 rounded-full border-2 border-[#f0f0f0] bg-[#080808]" />
+
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold leading-tight text-[#f0f0f0]">{item.title}</h3>
+                      <div className="mt-2 flex items-center gap-2 text-sm text-[#9a9a9a]">
+                        <BriefcaseBusiness className="h-4 w-4 text-[#b8b8b8]" aria-hidden="true" />
+                        <span>{item.location ? `${item.company} · ${item.location}` : item.company}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2 text-xs text-[#9a9a9a] sm:justify-end sm:pt-0.5">
+                      <span className="inline-flex items-center gap-1.5">
+                        <CalendarDays className="h-3.5 w-3.5 text-[#8d8d8d]" aria-hidden="true" />
+                        {item.period}
+                      </span>
+                      {item.status ? (
+                        <span className="rounded-full bg-[#242424] px-3 py-1 text-[11px] font-semibold text-[#e7e7e7]">
+                          {item.status}
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+
+                  <p className="mt-4 max-w-[920px] text-[15px] leading-7 text-[#c7c7c7]">{item.description}</p>
+
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {item.tech.map((tech) => (
+                      <span
+                        key={`${item.id}-${tech}`}
+                        className="rounded-full border border-[#272727] bg-[#0a0a0a] px-3 py-1 text-xs font-semibold leading-none text-[#eeeeee]"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <section className="mb-14">
           <p className="text-[11px] font-medium text-[#4d7cc7] uppercase tracking-[0.18em] mb-3">Expertise</p>
