@@ -3,7 +3,7 @@ import type { Experience } from "../types/experience";
 export const experience: Experience[] = [
     {
         id: "simplevia-junior-full-stack-engineer-intern",
-        title: "Junior Full-Stack Engineer Intern",
+        title: "Junior Full-Stack Engineer OJT",
         company: "Simplevia Technologies",
         location: "Pasig City, Metro Manila",
         period: "Feb 2026 - Apr 2026",
@@ -26,7 +26,7 @@ export const experience: Experience[] = [
         company: "Nephila Web Technology",
         location: "Quezon City, Metro Manila",
         period: "Aug 2025 - Dec 2025",
-        status: "Internship / Project-Based",
+        status: "OJT / Project-Based",
         description:
             "Built and deployed core Payroll and HRIS modules using Laravel and MySQL, automating reporting and payslip generation for HR and Accounting workflows. Executed structured data migration from Excel to CRM systems, optimized backend SQL queries to reduce processing time, and supported the live HRIS platform with Blade and Livewire UI work.",
         tech: [

@@ -95,6 +95,7 @@ export default function App() {
         return (
           <Home
             onNavigateToProjects={() => navigateToPage("projects")}
+            onNavigateToAbout={() => navigateToPage("about")}
             onNavigateToFeedback={() => navigateToPage("feedback")}
             onNavigateToContact={() => navigateToPage("contact")}
           />

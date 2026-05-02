@@ -14,8 +14,8 @@ export default function About() {
   return (
     <main className="relative z-10 min-h-[calc(100vh-56px)]">
       <div className="max-w-[1180px] mx-auto px-5 sm:px-8 lg:px-10 py-16 w-full">
-        <div className="grid lg:grid-cols-[1fr_320px] gap-10 items-start mb-14">
-          <div>
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_320px] gap-6 lg:gap-8 items-stretch mb-14">
+          <section className="rounded-xl border border-[#1e1e1e] bg-[#111] p-6 sm:p-8">
             <p className="text-[11px] font-medium text-[#4d7cc7] uppercase tracking-[0.18em] mb-3">About</p>
             <h1 className="text-4xl sm:text-5xl font-semibold text-[#f0f0f0] mb-5">Background, Skills & Credentials</h1>
             <div className="space-y-4 text-base text-[#888] leading-[1.85] max-w-[760px]">
@@ -23,12 +23,15 @@ export default function About() {
                 I'm <span className="text-[#e5e5e5]">Jerico Jimenez</span>, a Data Engineer based in the Philippines with a strong foundation in Full Stack Development.
               </p>
               <p>
-                With almost <span className="text-[#e5e5e5]">1 year of professional experience</span>, I've managed <span className="text-[#e5e5e5]">200k+ record datasets</span> using the <span className="text-[#e5e5e5]">AWS-Airflow-Snowflake stack</span>, bridging backend engineering with high-performance data analytics.
+                With nearly <span className="text-[#e5e5e5]">1 year of professional experience</span>, I've built and managed <span className="text-[#e5e5e5]">200k+ record datasets</span> using modern data stacks such as <span className="text-[#e5e5e5]">AWS, Airflow, Snowflake, and Athena</span>, designing end-to-end data pipelines from ingestion to analytics-ready layers. I specialize in <span className="text-[#e5e5e5]">Medallion Architecture</span> (Bronze-Silver-Gold), ETL orchestration, and SQL-based data transformation, enabling reliable and scalable data systems for reporting and analytics.
+              </p>
+              <p>
+                I bring a hybrid skill set that bridges backend engineering and data engineering, allowing me to understand both application-level data generation and downstream analytics. I'm particularly focused on building efficient, maintainable, and cost-optimized data pipelines in cloud environments.
               </p>
             </div>
-          </div>
+          </section>
 
-          <aside className="bg-[#111] border border-[#1e1e1e] rounded-xl p-5">
+          <aside className="h-full bg-[#111] border border-[#1e1e1e] rounded-xl p-5">
             {[
               ["Full name", "Jerico Jimenez"],
               ["Role", "Data Engineer"],
@@ -57,13 +60,13 @@ export default function About() {
         </div>
 
         <section className="mb-14">
-          <div className="border border-[#1e1e1e] bg-[#080808] rounded-xl p-6 sm:p-8">
+          <div className="border border-[#1e1e1e] bg-[#111] rounded-xl p-6 sm:p-8">
             <h2 className="text-2xl font-semibold text-[#f0f0f0] mb-8">Experience</h2>
 
             <div className="relative border-l border-[#242424] pl-5 sm:pl-7 space-y-10">
               {experience.map((item) => (
                 <article key={item.id} className="relative">
-                  <span className="absolute -left-[29px] sm:-left-[37px] top-1 h-4 w-4 rounded-full border-2 border-[#f0f0f0] bg-[#080808]" />
+                  <span className="absolute -left-[29px] sm:-left-[37px] top-1 h-4 w-4 rounded-full border-2 border-[#f0f0f0] bg-[#111]" />
 
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div>

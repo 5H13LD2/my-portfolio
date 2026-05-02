@@ -3,28 +3,35 @@ import type { Project } from "../types/project";
 export const projects: Project[] = [
   {
     id: "1",
-    title: "HRIS & Payroll Management Platform (Production)",
+    title: "AWS E-commerce Data Platform",
     description:
-      "Contributed to the development and production support of a live HRIS and Payroll platform used by HR and Accounting teams for payroll computation, employee record management, reporting, and payslip generation. Built backend modules using Laravel (MVC), implemented dynamic UI components, and assisted in structured data migration from Excel into CRM systems.",
+      "Built an end-to-end ecommerce analytics pipeline that generates transactional data, loads it into a PostgreSQL/RDS-style source, extracts raw CSVs with Apache Airflow, lands immutable Bronze data in Amazon S3, transforms Silver and Gold layers in Athena, and visualizes business metrics in Apache Superset.",
     tech: [
-      "Laravel 12",
-      "MySQL",
-      "Blade",
-      "Livewire",
-      "Bootstrap",
-      "JavaScript (jQuery)",
+      "Apache Airflow",
+      "Amazon RDS",
+      "Amazon S3",
+      "Amazon Athena",
+      "AWS Glue",
+      "Apache Superset",
+      "Docker Compose",
+      "Python",
+      "SQL",
+      "Parquet",
     ],
     images: [
-      "/assets/hris-screenshot/photo1.jpg",
-      "/assets/hris-screenshot/photo2.jpg",
-      "/assets/hris-screenshot/photo3.jpg",
+      "/assets/ecommerce-screenshot/superset-dashboard.png",
+      "/assets/ecommerce-screenshot/medallion_archi.png",
+      "/assets/ecommerce-screenshot/fakedata_to_rds.png",
+      "/assets/ecommerce-screenshot/convert_data_to_raw_csv.png",
+      "/assets/ecommerce-screenshot/raw_csv_to_data_lake.png",
     ],
+    featured: true,
   },
   {
     id: "8",
     title: "Makati City Accounting & Information System (AIS)",
     description:
-      "Built modules for a government Accounting & Information System during my full-stack engineering internship at Simplevia Technologies. Developed Laravel 9 backend services and Vue.js interfaces for journalization, financial reporting, automated OR/JEV generation, and multi-stage approval workflows aligned with Philippine COA standards. Strengthened secure role-based access with Spatie RBAC while supporting complex MySQL schemas, audit trails, and production-scale financial data processes.",
+      "Built modules for a government Accounting & Information System during my full-stack engineering OJT at Simplevia Technologies. Developed Laravel 9 backend services and Vue.js interfaces for journalization, financial reporting, automated OR/JEV generation, and multi-stage approval workflows aligned with Philippine COA standards. Strengthened secure role-based access with Spatie RBAC while supporting complex MySQL schemas, audit trails, and production-scale financial data processes.",
     tech: [
       "Laravel 9",
       "Vue.js",

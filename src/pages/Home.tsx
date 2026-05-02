@@ -1,14 +1,17 @@
 import { useEffect, useRef, useState, type PointerEvent } from "react";
-import { ArrowRight, CalendarDays, ExternalLink, Github, Linkedin, Mail, MapPin, MessageSquare, Star } from "lucide-react";
+import { ArrowRight, BriefcaseBusiness, CalendarDays, ExternalLink, Github, Linkedin, Mail, MapPin, MessageSquare, Star } from "lucide-react";
+import { experience } from "../data/experience";
 import { projects } from "../data/projects";
 import { team, type TeamMember } from "../data/team";
 import { useFeedback } from "../hooks/useFeedback";
 import type { Feedback } from "../types/feedback";
+import type { Experience } from "../types/experience";
 import type { Project } from "../types/project";
 import UserAvatar from "../components/UserAvatar";
 
 type HomeProps = {
   onNavigateToProjects: () => void;
+  onNavigateToAbout: () => void;
   onNavigateToFeedback: () => void;
   onNavigateToContact: () => void;
 };
@@ -137,6 +140,36 @@ function FeedbackPreviewCard({ item }: { item: Feedback }) {
   );
 }
 
+function ExperiencePreviewCard({ item }: { item: Experience }) {
+  return (
+    <article className="rounded-xl border border-[#232323] bg-[#0d0d0d] p-5 transition-all hover:-translate-y-0.5 hover:border-[#3a3a3a]">
+      <div className="mb-3 flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h3 className="text-base font-semibold leading-tight text-[#f0f0f0]">{item.title}</h3>
+          <p className="mt-1 flex items-center gap-1.5 text-xs text-[#8f8f8f]">
+            <BriefcaseBusiness size={13} className="shrink-0 text-[#777]" />
+            <span className="truncate">{item.company}</span>
+          </p>
+        </div>
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-[#2a2a2a] bg-[#111] px-2.5 py-1 text-[11px] text-[#aaa]">
+          <CalendarDays size={12} />
+          {item.period}
+        </span>
+      </div>
+
+      <p className="text-sm leading-[1.7] text-[#999] line-clamp-3">{item.description}</p>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        {item.tech.slice(0, 4).map((tech) => (
+          <span key={`${item.id}-${tech}`} className="rounded-full bg-[#2a2a2a] px-3 py-1 text-[11px] font-semibold text-[#f2f2f2]">
+            {tech}
+          </span>
+        ))}
+      </div>
+    </article>
+  );
+}
+
 function TeamMemberCard({ member }: { member: TeamMember }) {
   return (
     <article className="group flex flex-col items-center text-center">
@@ -174,7 +207,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
   );
 }
 
-export default function Home({ onNavigateToProjects, onNavigateToFeedback, onNavigateToContact }: HomeProps) {
+export default function Home({ onNavigateToProjects, onNavigateToAbout, onNavigateToFeedback, onNavigateToContact }: HomeProps) {
   const { feedback } = useFeedback();
   const feedbackScrollerRef = useRef<HTMLDivElement | null>(null);
   const dragState = useRef({ active: false, left: 0, startX: 0 });
@@ -320,6 +353,33 @@ export default function Home({ onNavigateToProjects, onNavigateToFeedback, onNav
           </div>
           <button onClick={onNavigateToProjects} className="sm:hidden mt-6 inline-flex items-center gap-2 text-sm text-[#f1f1f1]">
             View all projects <ArrowRight size={15} />
+          </button>
+        </div>
+      </section>
+
+      <section className="border-t border-[#1e1e1e]">
+        <div className="max-w-[1180px] mx-auto px-5 sm:px-8 lg:px-10 py-14 sm:py-16">
+          <div className="mb-8 flex items-end justify-between gap-5">
+            <div className="max-w-[680px]">
+              <p className="text-[11px] font-semibold text-[#4d7cc7] uppercase tracking-[0.22em] mb-3">Experience</p>
+              <h2 className="text-3xl sm:text-4xl font-semibold text-[#f0f0f0]">Professional Background</h2>
+              <p className="mt-4 text-sm sm:text-base leading-[1.75] text-[#888]">
+                A quick look at the roles where I built backend systems, production workflows, and data-focused engineering work.
+              </p>
+            </div>
+            <button onClick={onNavigateToAbout} className="hidden sm:inline-flex items-center gap-2 text-sm text-[#f1f1f1] hover:text-[#7aadff] transition-colors">
+              View experience
+              <ArrowRight size={15} className="-rotate-45" />
+            </button>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {experience.map((item) => (
+              <ExperiencePreviewCard key={item.id} item={item} />
+            ))}
+          </div>
+          <button onClick={onNavigateToAbout} className="sm:hidden mt-6 inline-flex items-center gap-2 text-sm text-[#f1f1f1]">
+            View experience <ArrowRight size={15} />
           </button>
         </div>
       </section>

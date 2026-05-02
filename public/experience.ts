@@ -11,10 +11,10 @@ export type Experience = {
 export const experiences: Experience[] = [
     {
         id: "1",
-        title: "Data Engineer Intern",
+        title: "Data Engineer OJT",
         company: "Simplevia Technologies Inc.",
         period: "Feb 2026 - Present · 3 mos",
-        status: "Internship · Hybrid · Pasig, National Capital Region, Philippines",
+        status: "OJT · Hybrid · Pasig, National Capital Region, Philippines",
         description:
             "Worked on production-grade data engineering workflows involving AWS, Apache Airflow, Snowflake, Docker, Python, and SQL. Built and maintained scalable ETL/ELT pipelines, including an S3-to-Snowflake retail data pipeline that processed 200,000+ transaction records. Designed containerized workflows using Docker Compose, orchestrated DAGs with Apache Airflow, and optimized SQL transformations for analytics-ready datasets.",
         tech: [
@@ -32,10 +32,10 @@ export const experiences: Experience[] = [
     },
     {
         id: "2",
-        title: "Full Stack Intern",
+        title: "Full Stack OJT",
         company: "Nephila Web",
         period: "Sep 2025 - Dec 2025 · 4 mos",
-        status: "Internship · On-site · National Capital Region, Philippines",
+        status: "OJT · On-site · National Capital Region, Philippines",
         description:
             "Contributed to the development and production support of an HRIS and Payroll Management Platform used by HR and Accounting teams. Built backend modules using Laravel MVC, developed dynamic UI components with Blade, Livewire, Bootstrap, and JavaScript, and assisted in structured data migration from Excel into CRM/database systems. Supported features related to payroll computation, employee records, reporting, and payslip generation.",
         tech: [
