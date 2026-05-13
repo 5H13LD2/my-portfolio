@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, Moon, Sun, X } from "lucide-react";
+import ChatWidget from "./components/ChatWidget";
 import ResumeButton from "./components/ResumeButton";
 import PDFModal from "./components/PDFModal";
 import SiteFooter from "./components/SiteFooter";
@@ -197,11 +198,7 @@ export default function App() {
         <SiteFooter />
       </div>
 
-      <button className="fixed bottom-5 right-5 w-11 h-11 rounded-full bg-blue-600 hover:bg-blue-700 border-none flex items-center justify-center shadow-[0_4px_20px_rgba(37,99,235,0.35)] z-50 transition-colors" title="Chat">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-        </svg>
-      </button>
+      <ChatWidget />
 
       <PDFModal
         isOpen={isPDFModalOpen}
