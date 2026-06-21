@@ -36,13 +36,13 @@ export default function Contact() {
     <div className="max-w-[1000px] mx-auto px-5 sm:px-8 lg:px-10 py-16 w-full">
       <div className="mb-12">
         <h2 className="text-[32px] sm:text-[36px] font-semibold text-[#f0f0f0] mb-3">Get In Touch</h2>
-        <p className="text-sm sm:text-base text-[#888]">Have a project in mind? Let's talk.</p>
+        <p className="text-sm sm:text-base text-[#888]">Have a focused project or collaboration in mind? Let's talk.</p>
       </div>
 
       <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16 items-start">
         <div>
           <p className="text-[15px] text-[#d8d8d8] leading-[1.75] mb-8">
-            I'm available for freelance work and open to discussing new opportunities. Whether you have a project in mind or just want to say hello, my inbox is always open.
+            I recently accepted a job offer, so I'm not available for full-time roles right now. I'm still open to focused freelance projects, collaborations, and professional conversations.
           </p>
 
           <div className="space-y-3 mb-8">

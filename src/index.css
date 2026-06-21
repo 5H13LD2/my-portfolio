@@ -425,6 +425,35 @@
     display: none;
 }
 
+.chat-message-list-shell .cs-message-list {
+    height: 100%;
+    background: transparent;
+}
+
+.chat-message-list-shell .cs-message-list__scroll-wrapper {
+    background: transparent;
+}
+
+.chat-message-list-shell .ps__rail-x {
+    display: none !important;
+}
+
+.chat-message-list-shell .ps__rail-y {
+    opacity: 0;
+    background: transparent !important;
+}
+
+.chat-message-list-shell .cs-message-list:hover .ps__rail-y,
+.chat-message-list-shell .ps--scrolling-y .ps__rail-y {
+    opacity: 0.35;
+}
+
+.chat-message-list-shell .ps__thumb-y {
+    background-color: #3a3a3a !important;
+    border-radius: 999px;
+    width: 6px;
+}
+
 .brownout-overlay {
     position: fixed;
     inset: 0;

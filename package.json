@@ -13,6 +13,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@chatscope/chat-ui-kit-react": "^2.1.1",
+    "@chatscope/chat-ui-kit-styles": "^1.4.0",
     "@gsap/react": "^2.1.2",
     "firebase": "^12.7.0",
     "firebase-admin": "^13.6.0",

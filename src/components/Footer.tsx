@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
         {/* Additional info for mobile */}
         <div className="mt-4 pt-4 border-t border-gray-100 sm:hidden">
           <p className="text-xs text-gray-500 text-center">
-            Full Stack Developer • Open to opportunities
+            Data Engineer • Not available for full-time roles
           </p>
         </div>
       </div>

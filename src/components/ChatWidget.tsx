@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
+import { MessageList } from "@chatscope/chat-ui-kit-react";
 import { LogOut, Loader2, MessageSquare, MoreHorizontal, Reply, Send, SmilePlus, X } from "lucide-react";
 import { useChat } from "../hooks/useChat";
 import type { ChatMessage, ChatReaction, ChatReactionEmoji } from "../types/chat";
@@ -21,7 +22,6 @@ export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeReactionMessageId, setActiveReactionMessageId] = useState<string | null>(null);
   const [activeMenuMessageId, setActiveMenuMessageId] = useState<string | null>(null);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const longPressTimeoutRef = useRef<number | null>(null);
   const {
     authLoading,
@@ -44,12 +44,6 @@ export default function ChatWidget() {
     toggleReaction,
     updateField,
   } = useChat();
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [isOpen, messages]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -118,14 +112,14 @@ export default function ChatWidget() {
             </div>
           </header>
 
-          <div className="flex-1 overflow-y-auto px-4 py-4">
+          <div className="chat-message-list-shell min-h-0 flex-1">
             {authLoading ? (
-              <div className="flex h-full items-center justify-center text-sm text-[#888]">
+              <div className="flex h-full items-center justify-center px-4 py-4 text-sm text-[#888]">
                 <Loader2 size={16} className="mr-2 animate-spin" />
                 Checking account
               </div>
             ) : !mode ? (
-              <div className="flex h-full flex-col items-center justify-center text-center">
+              <div className="flex h-full flex-col items-center justify-center px-4 py-4 text-center">
                 <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#0d1828] text-[#7aadff]">
                   <MessageSquare size={18} />
                 </div>
@@ -152,7 +146,7 @@ export default function ChatWidget() {
                 {error && <p className="mt-3 text-xs text-red-400">{error}</p>}
               </div>
             ) : mode === "google" && !user ? (
-              <div className="flex h-full flex-col items-center justify-center text-center">
+              <div className="flex h-full flex-col items-center justify-center px-4 py-4 text-center">
                 <p className="text-sm font-medium text-[#e5e5e5]">Google sign-in needed</p>
                 <button
                   type="button"
@@ -164,12 +158,9 @@ export default function ChatWidget() {
                 {error && <p className="mt-3 text-xs text-red-400">{error}</p>}
               </div>
             ) : loading ? (
-              <div className="flex h-full items-center justify-center text-sm text-[#888]">
-                <Loader2 size={16} className="mr-2 animate-spin" />
-                Loading chat
-              </div>
+              <MessageList className="chat-scope-message-list" loading autoScrollToBottom autoScrollToBottomOnMount />
             ) : messages.length === 0 ? (
-              <div className="flex h-full flex-col items-center justify-center text-center">
+              <div className="flex h-full flex-col items-center justify-center px-4 py-4 text-center">
                 <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#0d1828] text-[#7aadff]">
                   <MessageSquare size={18} />
                 </div>
@@ -179,157 +170,165 @@ export default function ChatWidget() {
                 </p>
               </div>
             ) : (
-              <div className="space-y-3">
-                {messages.map((message) => {
-                  const isOwnMessage =
-                    (message.senderAuthProvider === "google" && Boolean(user?.uid) && message.senderUid === user?.uid) ||
-                    (message.senderAuthProvider === "anonymous" && message.senderClientId === anonymousClientId);
-                  const reactions = reactionsByMessage[message.id] ?? [];
-                  const ownReaction = reactions.find((reaction) =>
-                    user?.uid ? reaction.id === user.uid : reaction.id === anonymousClientId,
-                  );
-                  const reactionSummary = summarizeReactions(reactions);
-                  const isReactionPickerOpen = activeReactionMessageId === message.id;
+              <MessageList
+                className="chat-scope-message-list"
+                autoScrollToBottom
+                autoScrollToBottomOnMount
+                scrollBehavior="smooth"
+              >
+                <MessageList.Content>
+                  <div className="space-y-3 px-4 py-4">
+                    {messages.map((message) => {
+                      const isOwnMessage =
+                        (message.senderAuthProvider === "google" && Boolean(user?.uid) && message.senderUid === user?.uid) ||
+                        (message.senderAuthProvider === "anonymous" && message.senderClientId === anonymousClientId);
+                      const reactions = reactionsByMessage[message.id] ?? [];
+                      const ownReaction = reactions.find((reaction) =>
+                        user?.uid ? reaction.id === user.uid : reaction.id === anonymousClientId,
+                      );
+                      const reactionSummary = summarizeReactions(reactions);
+                      const isReactionPickerOpen = activeReactionMessageId === message.id;
 
-                  return (
-                    <div key={message.id} className={`flex ${isOwnMessage ? "justify-end" : "justify-start"}`}>
-                      <div className={`relative flex max-w-[88%] items-end gap-2 ${isOwnMessage ? "flex-row-reverse" : ""}`}>
-                        <div className={`${isOwnMessage ? "items-end" : "items-start"} flex max-w-[calc(100%-2.25rem)] flex-col gap-1`}>
-                          <div
-                            onPointerDown={() => beginLongPress(message)}
-                            onPointerUp={clearLongPress}
-                            onPointerCancel={clearLongPress}
-                            onPointerLeave={clearLongPress}
-                            className={`rounded-lg px-3 py-2 ${
-                              isOwnMessage
-                                ? "bg-blue-600 text-white"
-                                : "border border-[#242424] bg-[#171717] text-[#e5e5e5]"
-                            }`}
-                          >
-                            {message.replyTo && (
+                      return (
+                        <div key={message.id} className={`flex ${isOwnMessage ? "justify-end" : "justify-start"}`}>
+                          <div className={`relative flex max-w-[88%] items-end gap-2 ${isOwnMessage ? "flex-row-reverse" : ""}`}>
+                            <div className={`${isOwnMessage ? "items-end" : "items-start"} flex max-w-[calc(100%-2.25rem)] flex-col gap-1`}>
                               <div
-                                className={`mb-2 rounded-md border-l-2 px-2 py-1 ${
+                                onPointerDown={() => beginLongPress(message)}
+                                onPointerUp={clearLongPress}
+                                onPointerCancel={clearLongPress}
+                                onPointerLeave={clearLongPress}
+                                className={`rounded-lg px-3 py-2 ${
                                   isOwnMessage
-                                    ? "border-blue-200 bg-blue-500/35 text-blue-50"
-                                    : "border-[#555] bg-[#101010] text-[#cfcfcf]"
+                                    ? "bg-blue-600 text-white"
+                                    : "border border-[#242424] bg-[#171717] text-[#e5e5e5]"
                                 }`}
                               >
-                                <p className="text-[11px] font-medium">{message.replyTo.senderName}</p>
-                                <p className="line-clamp-2 text-[11px] leading-4 opacity-85">{message.replyTo.text}</p>
+                                {message.replyTo && (
+                                  <div
+                                    className={`mb-2 rounded-md border-l-2 px-2 py-1 ${
+                                      isOwnMessage
+                                        ? "border-blue-200 bg-blue-500/35 text-blue-50"
+                                        : "border-[#555] bg-[#101010] text-[#cfcfcf]"
+                                    }`}
+                                  >
+                                    <p className="text-[11px] font-medium">{message.replyTo.senderName}</p>
+                                    <p className="line-clamp-2 text-[11px] leading-4 opacity-85">{message.replyTo.text}</p>
+                                  </div>
+                                )}
+                                {!isOwnMessage && (
+                                  <p className="mb-1 text-[11px] font-medium text-[#999]">{message.senderName}</p>
+                                )}
+                                <p className="whitespace-pre-wrap break-words text-sm leading-5">{message.text}</p>
+                                <p className={`mt-1 text-[11px] ${isOwnMessage ? "text-blue-100" : "text-[#777]"}`}>
+                                  {formatChatTime(message.createdAt)}
+                                </p>
                               </div>
-                            )}
-                            {!isOwnMessage && (
-                              <p className="mb-1 text-[11px] font-medium text-[#999]">{message.senderName}</p>
-                            )}
-                            <p className="whitespace-pre-wrap break-words text-sm leading-5">{message.text}</p>
-                            <p className={`mt-1 text-[11px] ${isOwnMessage ? "text-blue-100" : "text-[#777]"}`}>
-                              {formatChatTime(message.createdAt)}
-                            </p>
-                          </div>
-                          <div className={`flex flex-wrap gap-1 ${isOwnMessage ? "justify-end" : "justify-start"}`}>
-                            {reactionSummary.map((summary) => (
+                              <div className={`flex flex-wrap gap-1 ${isOwnMessage ? "justify-end" : "justify-start"}`}>
+                                {reactionSummary.map((summary) => (
+                                  <button
+                                    key={summary.emoji}
+                                    type="button"
+                                    onClick={() => toggleReaction(message.id, summary.emoji)}
+                                    className={`min-h-7 rounded-full border px-2 text-xs transition-colors ${
+                                      ownReaction?.emoji === summary.emoji
+                                        ? "border-blue-500 bg-[#0d1828] text-[#dbeafe]"
+                                        : "border-[#2a2a2a] bg-[#111] text-[#cfcfcf] hover:border-[#555]"
+                                    }`}
+                                    aria-label={`React with ${summary.emoji}`}
+                                    title={`React with ${summary.emoji}`}
+                                  >
+                                    <span>{summary.emoji}</span>
+                                    <span className="ml-1">{summary.count}</span>
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                            <div className="relative mb-1 flex flex-shrink-0 flex-col gap-1">
                               <button
-                                key={summary.emoji}
                                 type="button"
-                                onClick={() => toggleReaction(message.id, summary.emoji)}
-                                className={`min-h-7 rounded-full border px-2 text-xs transition-colors ${
-                                  ownReaction?.emoji === summary.emoji
+                                onClick={() =>
+                                  setActiveReactionMessageId((current) => (current === message.id ? null : message.id))
+                                }
+                                className={`flex h-7 w-7 items-center justify-center rounded-full border text-[#cfcfcf] transition-colors ${
+                                  isReactionPickerOpen
                                     ? "border-blue-500 bg-[#0d1828] text-[#dbeafe]"
-                                    : "border-[#2a2a2a] bg-[#111] text-[#cfcfcf] hover:border-[#555]"
+                                    : "border-[#2a2a2a] bg-[#111] hover:border-[#555] hover:text-white"
                                 }`}
-                                aria-label={`React with ${summary.emoji}`}
-                                title={`React with ${summary.emoji}`}
+                                aria-label="Open reactions"
+                                aria-expanded={isReactionPickerOpen}
+                                title="React"
                               >
-                                <span>{summary.emoji}</span>
-                                <span className="ml-1">{summary.count}</span>
+                                <SmilePlus size={15} />
                               </button>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="relative mb-1 flex flex-shrink-0 flex-col gap-1">
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setActiveReactionMessageId((current) => (current === message.id ? null : message.id))
-                            }
-                            className={`flex h-7 w-7 items-center justify-center rounded-full border text-[#cfcfcf] transition-colors ${
-                              isReactionPickerOpen
-                                ? "border-blue-500 bg-[#0d1828] text-[#dbeafe]"
-                                : "border-[#2a2a2a] bg-[#111] hover:border-[#555] hover:text-white"
-                            }`}
-                            aria-label="Open reactions"
-                            aria-expanded={isReactionPickerOpen}
-                            title="React"
-                          >
-                            <SmilePlus size={15} />
-                          </button>
 
-                          {isReactionPickerOpen && (
-                            <div
-                              className={`reaction-picker absolute bottom-8 z-10 flex flex-col gap-1 rounded-full border border-[#2a2a2a] bg-[#111]/95 p-1 shadow-[0_12px_35px_rgba(0,0,0,0.35)] backdrop-blur-md ${
-                                isOwnMessage ? "right-0" : "left-0"
-                              }`}
-                            >
-                              {REACTION_EMOJIS.map((emoji, index) => (
-                                <button
-                                  key={emoji}
-                                  type="button"
-                                  onClick={() => handleReaction(message.id, emoji)}
-                                  className={`reaction-picker-button flex h-8 w-8 items-center justify-center rounded-full border text-base transition-colors hover:scale-110 ${
-                                    ownReaction?.emoji === emoji
-                                      ? "border-blue-500 bg-[#0d1828]"
-                                      : "border-transparent bg-transparent hover:bg-[#1f1f1f]"
+                              {isReactionPickerOpen && (
+                                <div
+                                  className={`reaction-picker absolute bottom-8 z-10 flex flex-col gap-1 rounded-full border border-[#2a2a2a] bg-[#111]/95 p-1 shadow-[0_12px_35px_rgba(0,0,0,0.35)] backdrop-blur-md ${
+                                    isOwnMessage ? "right-0" : "left-0"
                                   }`}
-                                  style={{ animationDelay: `${index * 0.035}s` }}
-                                  aria-label={`React with ${emoji}`}
-                                  title={`React with ${emoji}`}
                                 >
-                                  {emoji}
-                                </button>
-                              ))}
-                            </div>
-                          )}
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setActiveMenuMessageId((current) => (current === message.id ? null : message.id));
-                              setActiveReactionMessageId(null);
-                            }}
-                            className={`flex h-7 w-7 items-center justify-center rounded-full border text-[#cfcfcf] transition-colors ${
-                              activeMenuMessageId === message.id
-                                ? "border-blue-500 bg-[#0d1828] text-[#dbeafe]"
-                                : "border-[#2a2a2a] bg-[#111] hover:border-[#555] hover:text-white"
-                            }`}
-                            aria-label="Open message actions"
-                            aria-expanded={activeMenuMessageId === message.id}
-                            title="More"
-                          >
-                            <MoreHorizontal size={16} />
-                          </button>
-
-                          {activeMenuMessageId === message.id && (
-                            <div
-                              className={`absolute bottom-0 z-10 min-w-24 rounded-md border border-[#2a2a2a] bg-[#111]/95 p-1 shadow-[0_12px_35px_rgba(0,0,0,0.35)] backdrop-blur-md ${
-                                isOwnMessage ? "right-8" : "left-8"
-                              }`}
-                            >
+                                  {REACTION_EMOJIS.map((emoji, index) => (
+                                    <button
+                                      key={emoji}
+                                      type="button"
+                                      onClick={() => handleReaction(message.id, emoji)}
+                                      className={`reaction-picker-button flex h-8 w-8 items-center justify-center rounded-full border text-base transition-colors hover:scale-110 ${
+                                        ownReaction?.emoji === emoji
+                                          ? "border-blue-500 bg-[#0d1828]"
+                                          : "border-transparent bg-transparent hover:bg-[#1f1f1f]"
+                                      }`}
+                                      style={{ animationDelay: `${index * 0.035}s` }}
+                                      aria-label={`React with ${emoji}`}
+                                      title={`React with ${emoji}`}
+                                    >
+                                      {emoji}
+                                    </button>
+                                  ))}
+                                </div>
+                              )}
                               <button
                                 type="button"
-                                onClick={() => handleReply(message)}
-                                className="flex min-h-8 w-full items-center gap-2 rounded px-2 text-left text-xs text-[#e5e5e5] transition-colors hover:bg-[#1f1f1f]"
+                                onClick={() => {
+                                  setActiveMenuMessageId((current) => (current === message.id ? null : message.id));
+                                  setActiveReactionMessageId(null);
+                                }}
+                                className={`flex h-7 w-7 items-center justify-center rounded-full border text-[#cfcfcf] transition-colors ${
+                                  activeMenuMessageId === message.id
+                                    ? "border-blue-500 bg-[#0d1828] text-[#dbeafe]"
+                                    : "border-[#2a2a2a] bg-[#111] hover:border-[#555] hover:text-white"
+                                }`}
+                                aria-label="Open message actions"
+                                aria-expanded={activeMenuMessageId === message.id}
+                                title="More"
                               >
-                                <Reply size={14} />
-                                Reply
+                                <MoreHorizontal size={16} />
                               </button>
+
+                              {activeMenuMessageId === message.id && (
+                                <div
+                                  className={`absolute bottom-0 z-10 min-w-24 rounded-md border border-[#2a2a2a] bg-[#111]/95 p-1 shadow-[0_12px_35px_rgba(0,0,0,0.35)] backdrop-blur-md ${
+                                    isOwnMessage ? "right-8" : "left-8"
+                                  }`}
+                                >
+                                  <button
+                                    type="button"
+                                    onClick={() => handleReply(message)}
+                                    className="flex min-h-8 w-full items-center gap-2 rounded px-2 text-left text-xs text-[#e5e5e5] transition-colors hover:bg-[#1f1f1f]"
+                                  >
+                                    <Reply size={14} />
+                                    Reply
+                                  </button>
+                                </div>
+                              )}
                             </div>
-                          )}
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  );
-                })}
-                <div ref={messagesEndRef} />
-              </div>
+                      );
+                    })}
+                  </div>
+                </MessageList.Content>
+              </MessageList>
             )}
           </div>
 

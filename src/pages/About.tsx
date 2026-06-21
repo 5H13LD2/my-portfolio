@@ -37,11 +37,11 @@ export default function About() {
               ["Role", "Data Engineer"],
               ["Location", "Philippines"],
               ["Experience", "~1 year"],
-              ["Status", "Open to work"],
+              ["Status", "Employed - not available full-time"],
             ].map(([label, value]) => (
               <div key={label} className="py-3 border-b border-[#1e1e1e] flex flex-col gap-1">
                 <span className="text-[10px] text-[#444] uppercase tracking-wider">{label}</span>
-                <span className={`text-sm ${label === "Status" ? "text-[#4ade80]" : "text-[#bbb]"}`}>{value}</span>
+                <span className={`text-sm ${label === "Status" ? "text-[#7aadff]" : "text-[#bbb]"}`}>{value}</span>
               </div>
             ))}
             <div className="py-3 border-b border-[#1e1e1e] flex flex-col gap-1">
