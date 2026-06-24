@@ -293,7 +293,7 @@ export default function Home({ onNavigateToProjects, onNavigateToAbout, onNaviga
                 Jerico Jimenez
               </h1>
               <div className="flex items-center gap-2.5 mb-6 flex-wrap">
-                <span className="text-base font-medium">Analytics Engineer @ Lica Group of Companies</span>
+                <span className="text-base font-medium">Data Analytics Engineer @ Lica Group of Companies</span>
                 <span className="text-[#2a2a2a]">/</span>
                 <span className="inline-flex items-center gap-1.5 text-sm text-[#777]">
                   <MapPin size={14} />
