@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, Moon, Sun, X } from "lucide-react";
+import { Analytics } from "@vercel/analytics/react";
 import ChatWidget from "./components/ChatWidget";
 import ResumeButton from "./components/ResumeButton";
 import PDFModal from "./components/PDFModal";
@@ -198,6 +199,7 @@ export default function App() {
         <SiteFooter />
       </div>
 
+      <Analytics />
       <ChatWidget />
 
       <PDFModal
