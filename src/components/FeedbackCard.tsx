@@ -22,7 +22,7 @@ export default function FeedbackCard({ feedback }: FeedbackCardProps) {
           <UserAvatar name={feedback.name} photoURL={feedback.photoURL} />
           <div className="min-w-0">
             <h3 className="text-sm font-semibold text-[#f0f0f0] truncate">{feedback.name}</h3>
-            <p className="text-[11px] text-[#888]">Client</p>
+            <p className="text-[11px] text-[#888]">{feedback.userType}</p>
             <p className="text-[11px] text-[#aaa] truncate">{feedback.email}</p>
           </div>
         </div>

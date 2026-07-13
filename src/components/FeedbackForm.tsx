@@ -9,11 +9,13 @@ type FeedbackFormProps = {
   star: number;
   submitting: boolean;
   success: boolean;
+  userType: string;
   user: User | null;
   onMessageChange: (message: string) => void;
   onSignIn: () => void;
   onSignOut: () => void;
   onStarChange: (star: number) => void;
+  onUserTypeChange: (userType: string) => void;
   onSubmit: () => void;
 };
 
@@ -24,11 +26,13 @@ export default function FeedbackForm({
   star,
   submitting,
   success,
+  userType,
   user,
   onMessageChange,
   onSignIn,
   onSignOut,
   onStarChange,
+  onUserTypeChange,
   onSubmit,
 }: FeedbackFormProps) {
   if (!user) {
@@ -76,6 +80,20 @@ export default function FeedbackForm({
             );
           })}
         </div>
+      </div>
+
+      <div className="mb-4">
+        <label htmlFor="feedback-user-type" className="block text-xs text-[#888] mb-2">Your role / relationship</label>
+        <input
+          id="feedback-user-type"
+          type="text"
+          value={userType}
+          onChange={(event) => onUserTypeChange(event.target.value)}
+          className="w-full bg-[#111] border border-[#2a2a2a] rounded-lg px-3 py-2 text-sm text-[#e5e5e5] focus:outline-none focus:border-[#444] transition-colors"
+          placeholder="Client, Coworker, Supervisor..."
+          maxLength={50}
+        />
+        <p className="mt-1.5 text-[11px] text-[#666]">Leave this blank to use Others.</p>
       </div>
 
       <div className="mb-4">

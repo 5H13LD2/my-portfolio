@@ -12,11 +12,13 @@ import type { Feedback } from "../types/feedback";
 type FeedbackFormState = {
   message: string;
   star: number;
+  userType: string;
 };
 
 const initialForm: FeedbackFormState = {
   message: "",
   star: 5,
+  userType: "",
 };
 
 export function useFeedback() {
@@ -66,6 +68,11 @@ export function useFeedback() {
     setSuccess(false);
   };
 
+  const updateUserType = (userType: string) => {
+    setForm((current) => ({ ...current, userType }));
+    setSuccess(false);
+  };
+
   const signIn = async () => {
     setError(null);
     await signInWithGoogle();
@@ -95,6 +102,7 @@ export function useFeedback() {
       await createFeedback({
         name: userDisplayName,
         email: userEmail,
+        userType: form.userType.trim() || "Others",
         message: form.message,
         star: form.star,
         photoURL: user.photoURL,
@@ -123,5 +131,6 @@ export function useFeedback() {
     submitFeedback,
     updateMessage,
     updateStar,
+    updateUserType,
   };
 }

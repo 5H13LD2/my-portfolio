@@ -4,6 +4,7 @@ export type Feedback = {
   id: string;
   name: string;
   email: string;
+  userType: string;
   message: string;
   star: number;
   date: Date;
@@ -14,6 +15,7 @@ export type Feedback = {
 export type FeedbackDocument = {
   name: string;
   email: string;
+  userType?: string;
   message: string;
   star: number;
   date: Timestamp;
@@ -24,6 +26,7 @@ export type FeedbackDocument = {
 export type CreateFeedbackInput = {
   name: string;
   email: string;
+  userType: string;
   message: string;
   star: number;
   photoURL?: string | null;

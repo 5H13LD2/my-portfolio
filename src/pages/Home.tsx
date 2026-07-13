@@ -27,6 +27,7 @@ const fallbackFeedback: Feedback[] = [
     id: "fallback-feedback-1",
     name: "Juan dela Cruz",
     email: "sample@gmail.com",
+    userType: "Client",
     message: "Very accommodating and mabilis gumawa. Professional kausap from start to finish.",
     star: 5,
     date: new Date(),
@@ -35,6 +36,7 @@ const fallbackFeedback: Feedback[] = [
     id: "fallback-feedback-2",
     name: "Client Partner",
     email: "client@example.com",
+    userType: "Client",
     message: "Great work. My web app works smoothly and everything functions well.",
     star: 5,
     date: new Date(),
@@ -43,6 +45,7 @@ const fallbackFeedback: Feedback[] = [
     id: "fallback-feedback-3",
     name: "Project Owner",
     email: "owner@example.com",
+    userType: "Project Owner",
     message: "Highly recommended. Clear communication, detailed output, and easy to work with.",
     star: 5,
     date: new Date(),
@@ -132,7 +135,7 @@ function FeedbackPreviewCard({ item }: { item: Feedback }) {
         <UserAvatar name={item.name} photoURL={item.photoURL} />
         <div className="min-w-0">
           <p className="text-sm font-semibold text-[#f0f0f0] truncate">{item.name}</p>
-          <p className="text-xs text-[#777]">Client</p>
+          <p className="text-xs text-[#777]">{item.userType}</p>
           <p className="text-xs text-[#777] truncate">{item.email}</p>
         </div>
       </div>
@@ -404,7 +407,7 @@ export default function Home({ onNavigateToProjects, onNavigateToAbout, onNaviga
 
       <section className="border-t border-[#1e1e1e] overflow-hidden">
         <div className="max-w-[1180px] mx-auto px-5 sm:px-8 lg:px-10 py-16 sm:py-20">
-          <SectionHeader eyebrow="Social Proof" title="What Clients Say" actionLabel="See all" onAction={onNavigateToFeedback} />
+          <SectionHeader eyebrow="Social Proof" title="What People Say" actionLabel="See all" onAction={onNavigateToFeedback} />
         </div>
         <div className="relative pb-16 sm:pb-20">
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#0a0a0a] to-transparent" />
