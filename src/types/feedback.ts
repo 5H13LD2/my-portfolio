@@ -4,6 +4,7 @@ export type Feedback = {
   id: string;
   name: string;
   email: string;
+  organization: string;
   userType: string;
   message: string;
   star: number;
@@ -15,6 +16,7 @@ export type Feedback = {
 export type FeedbackDocument = {
   name: string;
   email: string;
+  organization?: string;
   userType?: string;
   message: string;
   star: number;
@@ -26,6 +28,7 @@ export type FeedbackDocument = {
 export type CreateFeedbackInput = {
   name: string;
   email: string;
+  organization: string;
   userType: string;
   message: string;
   star: number;

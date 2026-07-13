@@ -21,6 +21,7 @@ const mapFeedbackDocument = (doc: QueryDocumentSnapshot<DocumentData>): Feedback
     id: doc.id,
     name: data.name ?? "Anonymous",
     email: data.email ?? "",
+    organization: data.organization?.trim() || "Others",
     userType: data.userType?.trim() || "Others",
     message: data.message ?? "",
     star: data.star ?? 5,
@@ -49,6 +50,7 @@ export const createFeedback = async (input: CreateFeedbackInput) => {
   await addDoc(collection(db, FEEDBACK_COLLECTION), {
     name: input.name.trim(),
     email: input.email.trim(),
+    organization: input.organization.trim() || "Others",
     userType: input.userType.trim() || "Others",
     message: input.message.trim(),
     star: input.star,

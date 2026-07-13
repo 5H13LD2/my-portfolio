@@ -10,13 +10,19 @@ import {
 import type { Feedback } from "../types/feedback";
 
 type FeedbackFormState = {
+  customOrganization: string;
+  customUserType: string;
   message: string;
+  organization: string;
   star: number;
   userType: string;
 };
 
 const initialForm: FeedbackFormState = {
+  customOrganization: "",
+  customUserType: "",
   message: "",
+  organization: "",
   star: 5,
   userType: "",
 };
@@ -69,7 +75,22 @@ export function useFeedback() {
   };
 
   const updateUserType = (userType: string) => {
-    setForm((current) => ({ ...current, userType }));
+    setForm((current) => ({ ...current, userType, customUserType: userType === "Others" ? current.customUserType : "" }));
+    setSuccess(false);
+  };
+
+  const updateCustomUserType = (customUserType: string) => {
+    setForm((current) => ({ ...current, customUserType }));
+    setSuccess(false);
+  };
+
+  const updateOrganization = (organization: string) => {
+    setForm((current) => ({ ...current, organization, customOrganization: organization === "Others" ? current.customOrganization : "" }));
+    setSuccess(false);
+  };
+
+  const updateCustomOrganization = (customOrganization: string) => {
+    setForm((current) => ({ ...current, customOrganization }));
     setSuccess(false);
   };
 
@@ -102,7 +123,12 @@ export function useFeedback() {
       await createFeedback({
         name: userDisplayName,
         email: userEmail,
-        userType: form.userType.trim() || "Others",
+        organization: form.organization === "Others"
+          ? form.customOrganization.trim() || "Others"
+          : form.organization.trim() || "Others",
+        userType: form.userType === "Others"
+          ? form.customUserType.trim() || "Others"
+          : form.userType.trim() || "Others",
         message: form.message,
         star: form.star,
         photoURL: user.photoURL,
@@ -130,6 +156,9 @@ export function useFeedback() {
     signOut,
     submitFeedback,
     updateMessage,
+    updateCustomOrganization,
+    updateCustomUserType,
+    updateOrganization,
     updateStar,
     updateUserType,
   };

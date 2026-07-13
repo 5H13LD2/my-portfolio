@@ -4,14 +4,20 @@ import UserAvatar from "./UserAvatar";
 
 type FeedbackFormProps = {
   authLoading: boolean;
+  customOrganization: string;
+  customUserType: string;
   error: string | null;
   message: string;
+  organization: string;
   star: number;
   submitting: boolean;
   success: boolean;
   userType: string;
   user: User | null;
+  onCustomOrganizationChange: (customOrganization: string) => void;
+  onCustomUserTypeChange: (customUserType: string) => void;
   onMessageChange: (message: string) => void;
+  onOrganizationChange: (organization: string) => void;
   onSignIn: () => void;
   onSignOut: () => void;
   onStarChange: (star: number) => void;
@@ -21,14 +27,20 @@ type FeedbackFormProps = {
 
 export default function FeedbackForm({
   authLoading,
+  customOrganization,
+  customUserType,
   error,
   message,
+  organization,
   star,
   submitting,
   success,
   userType,
   user,
+  onCustomOrganizationChange,
+  onCustomUserTypeChange,
   onMessageChange,
+  onOrganizationChange,
   onSignIn,
   onSignOut,
   onStarChange,
@@ -84,16 +96,58 @@ export default function FeedbackForm({
 
       <div className="mb-4">
         <label htmlFor="feedback-user-type" className="block text-xs text-[#888] mb-2">Your role / relationship</label>
-        <input
+        <select
           id="feedback-user-type"
-          type="text"
           value={userType}
           onChange={(event) => onUserTypeChange(event.target.value)}
           className="w-full bg-[#111] border border-[#2a2a2a] rounded-lg px-3 py-2 text-sm text-[#e5e5e5] focus:outline-none focus:border-[#444] transition-colors"
-          placeholder="Client, Coworker, Supervisor..."
-          maxLength={50}
-        />
-        <p className="mt-1.5 text-[11px] text-[#666]">Leave this blank to use Others.</p>
+        >
+          <option value="">Choose your relationship</option>
+          <option value="Client">Client</option>
+          <option value="Supervisor">Supervisor</option>
+          <option value="Coworker">Coworker</option>
+          <option value="Classmate">Classmate</option>
+          <option value="Co-intern">Co-intern</option>
+          <option value="Others">Others</option>
+        </select>
+        {userType === "Others" && (
+          <input
+            type="text"
+            value={customUserType}
+            onChange={(event) => onCustomUserTypeChange(event.target.value)}
+            className="mt-2 w-full bg-[#111] border border-[#2a2a2a] rounded-lg px-3 py-2 text-sm text-[#e5e5e5] focus:outline-none focus:border-[#444] transition-colors"
+            placeholder="Type your relationship (optional)"
+            maxLength={50}
+          />
+        )}
+        <p className="mt-1.5 text-[11px] text-[#666]">No selection or blank custom value will use Others.</p>
+      </div>
+
+      <div className="mb-4">
+        <label htmlFor="feedback-organization" className="block text-xs text-[#888] mb-2">I am from</label>
+        <select
+          id="feedback-organization"
+          value={organization}
+          onChange={(event) => onOrganizationChange(event.target.value)}
+          className="w-full bg-[#111] border border-[#2a2a2a] rounded-lg px-3 py-2 text-sm text-[#e5e5e5] focus:outline-none focus:border-[#444] transition-colors"
+        >
+          <option value="">Choose your organization or school</option>
+          <option value="LICA Group of Companies - Gulong.ph">LICA Group of Companies - Gulong.ph</option>
+          <option value="Simplevia Technologies Inc.">Simplevia Technologies Inc.</option>
+          <option value="Nephila Web Technology Inc.">Nephila Web Technology Inc.</option>
+          <option value="New Era University">New Era University</option>
+          <option value="Others">Others</option>
+        </select>
+        {organization === "Others" && (
+          <input
+            type="text"
+            value={customOrganization}
+            onChange={(event) => onCustomOrganizationChange(event.target.value)}
+            className="mt-2 w-full bg-[#111] border border-[#2a2a2a] rounded-lg px-3 py-2 text-sm text-[#e5e5e5] focus:outline-none focus:border-[#444] transition-colors"
+            placeholder="Type your organization or school (optional)"
+            maxLength={100}
+          />
+        )}
       </div>
 
       <div className="mb-4">

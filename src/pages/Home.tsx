@@ -27,6 +27,7 @@ const fallbackFeedback: Feedback[] = [
     id: "fallback-feedback-1",
     name: "Juan dela Cruz",
     email: "sample@gmail.com",
+    organization: "LICA Group of Companies - Gulong.ph",
     userType: "Client",
     message: "Very accommodating and mabilis gumawa. Professional kausap from start to finish.",
     star: 5,
@@ -36,6 +37,7 @@ const fallbackFeedback: Feedback[] = [
     id: "fallback-feedback-2",
     name: "Client Partner",
     email: "client@example.com",
+    organization: "Simplevia Technologies Inc.",
     userType: "Client",
     message: "Great work. My web app works smoothly and everything functions well.",
     star: 5,
@@ -45,6 +47,7 @@ const fallbackFeedback: Feedback[] = [
     id: "fallback-feedback-3",
     name: "Project Owner",
     email: "owner@example.com",
+    organization: "New Era University",
     userType: "Project Owner",
     message: "Highly recommended. Clear communication, detailed output, and easy to work with.",
     star: 5,
@@ -136,6 +139,7 @@ function FeedbackPreviewCard({ item }: { item: Feedback }) {
         <div className="min-w-0">
           <p className="text-sm font-semibold text-[#f0f0f0] truncate">{item.name}</p>
           <p className="text-xs text-[#777]">{item.userType}</p>
+          <p className="text-xs text-[#777] truncate">{item.organization}</p>
           <p className="text-xs text-[#777] truncate">{item.email}</p>
         </div>
       </div>

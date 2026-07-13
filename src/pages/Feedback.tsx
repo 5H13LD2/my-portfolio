@@ -15,7 +15,10 @@ export default function Feedback() {
     signIn,
     signOut,
     submitFeedback,
+    updateCustomOrganization,
+    updateCustomUserType,
     updateMessage,
+    updateOrganization,
     updateStar,
     updateUserType,
   } = useFeedback();
@@ -53,14 +56,20 @@ export default function Feedback() {
 
       <FeedbackForm
         authLoading={authLoading}
+        customOrganization={form.customOrganization}
+        customUserType={form.customUserType}
         error={error}
         message={form.message}
+        organization={form.organization}
         star={form.star}
         submitting={submitting}
         success={success}
         userType={form.userType}
         user={user}
+        onCustomOrganizationChange={updateCustomOrganization}
+        onCustomUserTypeChange={updateCustomUserType}
         onMessageChange={updateMessage}
+        onOrganizationChange={updateOrganization}
         onSignIn={signIn}
         onSignOut={signOut}
         onStarChange={updateStar}
