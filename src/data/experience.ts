@@ -43,9 +43,9 @@ export const experience: Experience[] = [
         ],
     },
     {
-        id: "self-employed-web-developer-freelance",
+        id: "freelance-web-developer",
         title: "Web Developer",
-        company: "Self Employed",
+        company: "Freelance",
         location: "National Capital Region, Philippines · Remote",
         period: "May 2024 - Oct 2025",
         status: "Freelance",

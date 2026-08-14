@@ -42,7 +42,7 @@ export default function Contact() {
       <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16 items-start">
         <div>
           <p className="text-[15px] text-[#d8d8d8] leading-[1.75] mb-8">
-            I recently accepted a job offer, so I'm not available for full-time roles right now. I'm still open to focused freelance projects, collaborations, and professional conversations.
+            I'm available for full-time roles and also open to focused freelance projects, collaborations, and professional conversations.
           </p>
 
           <div className="space-y-3 mb-8">

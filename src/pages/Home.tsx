@@ -292,15 +292,15 @@ export default function Home({ onNavigateToProjects, onNavigateToAbout, onNaviga
         <div className="max-w-[1180px] mx-auto px-5 sm:px-8 lg:px-10 py-16 sm:py-20 w-full">
           <div className="grid lg:grid-cols-[1fr_320px] gap-12 lg:gap-20 items-center">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#2a2a2a] bg-[#111] text-[#d8d8d8] text-xs mb-5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#7aadff]" />
-                Currently employed
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#245c38] bg-[#111] text-[#4ade80] text-xs mb-5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#4ade80]" />
+                Available for work
               </div>
               <h1 className="text-5xl sm:text-6xl lg:text-[72px] font-medium leading-[1.02] text-[#f5f5f5] mb-5">
                 Jerico Jimenez
               </h1>
               <div className="flex items-center gap-2.5 mb-6 flex-wrap">
-                <span className="text-base font-medium">Data Analytics Engineer @ Lica Group of Companies</span>
+                <span className="text-base font-medium">Data Analytics Engineer</span>
                 <span className="text-[#2a2a2a]">/</span>
                 <span className="inline-flex items-center gap-1.5 text-sm text-[#777]">
                   <MapPin size={14} />
@@ -444,7 +444,7 @@ export default function Home({ onNavigateToProjects, onNavigateToAbout, onNaviga
               <p className="text-[11px] font-semibold text-[#4d7cc7] uppercase tracking-[0.22em] mb-3">Get in touch</p>
               <h2 className="text-3xl sm:text-4xl font-semibold text-[#f0f0f0] mb-3">Have a project in mind?</h2>
               <p className="text-sm sm:text-base text-[#888] max-w-[640px] leading-[1.75]">
-                I am not available for full-time opportunities right now, but I am happy to talk about focused projects, data cleanup, automation, or professional connections.
+                I am available for full-time opportunities and happy to talk about focused projects, data cleanup, automation, or professional connections.
               </p>
             </div>
             <button onClick={onNavigateToContact} className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#e5e5e5] px-5 py-3 text-sm font-semibold text-[#0a0a0a] transition-colors hover:bg-white">

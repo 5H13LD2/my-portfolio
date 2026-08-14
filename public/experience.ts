@@ -13,7 +13,7 @@ export const experiences: Experience[] = [
         id: "1",
         title: "Data Engineer OJT",
         company: "Simplevia Technologies Inc.",
-        period: "Feb 2026 - Present · 3 mos",
+        period: "Feb 2026 - Apr 2026 · 3 mos",
         status: "OJT · Hybrid · Pasig, National Capital Region, Philippines",
         description:
             "Worked on production-grade data engineering workflows involving AWS, Apache Airflow, Snowflake, Docker, Python, and SQL. Built and maintained scalable ETL/ELT pipelines, including an S3-to-Snowflake retail data pipeline that processed 200,000+ transaction records. Designed containerized workflows using Docker Compose, orchestrated DAGs with Apache Airflow, and optimized SQL transformations for analytics-ready datasets.",
@@ -54,7 +54,7 @@ export const experiences: Experience[] = [
     {
         id: "3",
         title: "Web Developer",
-        company: "Self Employed",
+        company: "Freelance",
         period: "May 2024 - Oct 2025 · 1 yr 6 mos",
         status: "Freelance · Remote · National Capital Region, Philippines",
         description:
